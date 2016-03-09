@@ -10,6 +10,37 @@
 		4AB054D91C8FDF08006FCFCA /* DataDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB054D81C8FDF08006FCFCA /* DataDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AB054E01C8FDF08006FCFCA /* DataDriver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB054D51C8FDF08006FCFCA /* DataDriver.framework */; };
 		4AB054E51C8FDF08006FCFCA /* DataDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054E41C8FDF08006FCFCA /* DataDriverTests.swift */; };
+		4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F01C8FDFE2006FCFCA /* BlockObserver.swift */; };
+		4AB055101C8FDFE2006FCFCA /* BlockOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F11C8FDFE2006FCFCA /* BlockOperation.swift */; };
+		4AB055111C8FDFE2006FCFCA /* CalendarCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F21C8FDFE2006FCFCA /* CalendarCondition.swift */; };
+		4AB055121C8FDFE2006FCFCA /* CKContainer+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F31C8FDFE2006FCFCA /* CKContainer+Operations.swift */; };
+		4AB055131C8FDFE2006FCFCA /* CloudCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F41C8FDFE2006FCFCA /* CloudCondition.swift */; };
+		4AB055141C8FDFE2006FCFCA /* DelayOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F51C8FDFE2006FCFCA /* DelayOperation.swift */; };
+		4AB055151C8FDFE2006FCFCA /* Dictionary+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F61C8FDFE2006FCFCA /* Dictionary+Operations.swift */; };
+		4AB055161C8FDFE2006FCFCA /* ExclusivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F71C8FDFE2006FCFCA /* ExclusivityController.swift */; };
+		4AB055171C8FDFE2006FCFCA /* GroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F81C8FDFE2006FCFCA /* GroupOperation.swift */; };
+		4AB055181C8FDFE2006FCFCA /* HealthCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054F91C8FDFE2006FCFCA /* HealthCondition.swift */; };
+		4AB055191C8FDFE2006FCFCA /* LocationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FA1C8FDFE2006FCFCA /* LocationCondition.swift */; };
+		4AB0551A1C8FDFE2006FCFCA /* LocationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FB1C8FDFE2006FCFCA /* LocationOperation.swift */; };
+		4AB0551B1C8FDFE2006FCFCA /* MutuallyExclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FC1C8FDFE2006FCFCA /* MutuallyExclusive.swift */; };
+		4AB0551C1C8FDFE2006FCFCA /* NegatedCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FD1C8FDFE2006FCFCA /* NegatedCondition.swift */; };
+		4AB0551D1C8FDFE2006FCFCA /* NoCancelledDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FE1C8FDFE2006FCFCA /* NoCancelledDependencies.swift */; };
+		4AB0551E1C8FDFE2006FCFCA /* NSLock+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054FF1C8FDFE2006FCFCA /* NSLock+Operations.swift */; };
+		4AB0551F1C8FDFE2006FCFCA /* NSOperation+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055001C8FDFE2006FCFCA /* NSOperation+Operations.swift */; };
+		4AB055201C8FDFE2006FCFCA /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055011C8FDFE2006FCFCA /* Operation.swift */; };
+		4AB055211C8FDFE2006FCFCA /* OperationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055021C8FDFE2006FCFCA /* OperationCondition.swift */; };
+		4AB055221C8FDFE2006FCFCA /* OperationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055031C8FDFE2006FCFCA /* OperationErrors.swift */; };
+		4AB055231C8FDFE2006FCFCA /* OperationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055041C8FDFE2006FCFCA /* OperationObserver.swift */; };
+		4AB055241C8FDFE2006FCFCA /* OperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055051C8FDFE2006FCFCA /* OperationQueue.swift */; };
+		4AB055251C8FDFE2006FCFCA /* PassbookCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055061C8FDFE2006FCFCA /* PassbookCondition.swift */; };
+		4AB055261C8FDFE2006FCFCA /* PhotosCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055071C8FDFE2006FCFCA /* PhotosCondition.swift */; };
+		4AB055271C8FDFE2006FCFCA /* ReachabilityCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055081C8FDFE2006FCFCA /* ReachabilityCondition.swift */; };
+		4AB055281C8FDFE2006FCFCA /* RemoteNotificationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB055091C8FDFE2006FCFCA /* RemoteNotificationCondition.swift */; };
+		4AB055291C8FDFE2006FCFCA /* SilentCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB0550A1C8FDFE2006FCFCA /* SilentCondition.swift */; };
+		4AB0552A1C8FDFE2006FCFCA /* TimeoutObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB0550B1C8FDFE2006FCFCA /* TimeoutObserver.swift */; };
+		4AB0552B1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB0550C1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift */; };
+		4AB0552C1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB0550D1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift */; };
+		4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB0550E1C8FDFE2006FCFCA /* UserNotificationCondition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +60,37 @@
 		4AB054DF1C8FDF08006FCFCA /* DataDriverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataDriverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AB054E41C8FDF08006FCFCA /* DataDriverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDriverTests.swift; sourceTree = "<group>"; };
 		4AB054E61C8FDF08006FCFCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AB054F01C8FDFE2006FCFCA /* BlockObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockObserver.swift; sourceTree = "<group>"; };
+		4AB054F11C8FDFE2006FCFCA /* BlockOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockOperation.swift; sourceTree = "<group>"; };
+		4AB054F21C8FDFE2006FCFCA /* CalendarCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCondition.swift; sourceTree = "<group>"; };
+		4AB054F31C8FDFE2006FCFCA /* CKContainer+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CKContainer+Operations.swift"; sourceTree = "<group>"; };
+		4AB054F41C8FDFE2006FCFCA /* CloudCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudCondition.swift; sourceTree = "<group>"; };
+		4AB054F51C8FDFE2006FCFCA /* DelayOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelayOperation.swift; sourceTree = "<group>"; };
+		4AB054F61C8FDFE2006FCFCA /* Dictionary+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Operations.swift"; sourceTree = "<group>"; };
+		4AB054F71C8FDFE2006FCFCA /* ExclusivityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExclusivityController.swift; sourceTree = "<group>"; };
+		4AB054F81C8FDFE2006FCFCA /* GroupOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOperation.swift; sourceTree = "<group>"; };
+		4AB054F91C8FDFE2006FCFCA /* HealthCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthCondition.swift; sourceTree = "<group>"; };
+		4AB054FA1C8FDFE2006FCFCA /* LocationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCondition.swift; sourceTree = "<group>"; };
+		4AB054FB1C8FDFE2006FCFCA /* LocationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationOperation.swift; sourceTree = "<group>"; };
+		4AB054FC1C8FDFE2006FCFCA /* MutuallyExclusive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutuallyExclusive.swift; sourceTree = "<group>"; };
+		4AB054FD1C8FDFE2006FCFCA /* NegatedCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NegatedCondition.swift; sourceTree = "<group>"; };
+		4AB054FE1C8FDFE2006FCFCA /* NoCancelledDependencies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoCancelledDependencies.swift; sourceTree = "<group>"; };
+		4AB054FF1C8FDFE2006FCFCA /* NSLock+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLock+Operations.swift"; sourceTree = "<group>"; };
+		4AB055001C8FDFE2006FCFCA /* NSOperation+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSOperation+Operations.swift"; sourceTree = "<group>"; };
+		4AB055011C8FDFE2006FCFCA /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		4AB055021C8FDFE2006FCFCA /* OperationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationCondition.swift; sourceTree = "<group>"; };
+		4AB055031C8FDFE2006FCFCA /* OperationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationErrors.swift; sourceTree = "<group>"; };
+		4AB055041C8FDFE2006FCFCA /* OperationObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationObserver.swift; sourceTree = "<group>"; };
+		4AB055051C8FDFE2006FCFCA /* OperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationQueue.swift; sourceTree = "<group>"; };
+		4AB055061C8FDFE2006FCFCA /* PassbookCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassbookCondition.swift; sourceTree = "<group>"; };
+		4AB055071C8FDFE2006FCFCA /* PhotosCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCondition.swift; sourceTree = "<group>"; };
+		4AB055081C8FDFE2006FCFCA /* ReachabilityCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityCondition.swift; sourceTree = "<group>"; };
+		4AB055091C8FDFE2006FCFCA /* RemoteNotificationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteNotificationCondition.swift; sourceTree = "<group>"; };
+		4AB0550A1C8FDFE2006FCFCA /* SilentCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SilentCondition.swift; sourceTree = "<group>"; };
+		4AB0550B1C8FDFE2006FCFCA /* TimeoutObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeoutObserver.swift; sourceTree = "<group>"; };
+		4AB0550C1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIUserNotifications+Operations.swift"; sourceTree = "<group>"; };
+		4AB0550D1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionTaskOperation.swift; sourceTree = "<group>"; };
+		4AB0550E1C8FDFE2006FCFCA /* UserNotificationCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNotificationCondition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +135,7 @@
 			children = (
 				4AB054D81C8FDF08006FCFCA /* DataDriver.h */,
 				4AB054DA1C8FDF08006FCFCA /* Info.plist */,
+				4AB054EF1C8FDFE2006FCFCA /* Base Operations */,
 			);
 			path = DataDriver;
 			sourceTree = "<group>";
@@ -84,6 +147,44 @@
 				4AB054E61C8FDF08006FCFCA /* Info.plist */,
 			);
 			path = DataDriverTests;
+			sourceTree = "<group>";
+		};
+		4AB054EF1C8FDFE2006FCFCA /* Base Operations */ = {
+			isa = PBXGroup;
+			children = (
+				4AB054F01C8FDFE2006FCFCA /* BlockObserver.swift */,
+				4AB054F11C8FDFE2006FCFCA /* BlockOperation.swift */,
+				4AB054F21C8FDFE2006FCFCA /* CalendarCondition.swift */,
+				4AB054F31C8FDFE2006FCFCA /* CKContainer+Operations.swift */,
+				4AB054F41C8FDFE2006FCFCA /* CloudCondition.swift */,
+				4AB054F51C8FDFE2006FCFCA /* DelayOperation.swift */,
+				4AB054F61C8FDFE2006FCFCA /* Dictionary+Operations.swift */,
+				4AB054F71C8FDFE2006FCFCA /* ExclusivityController.swift */,
+				4AB054F81C8FDFE2006FCFCA /* GroupOperation.swift */,
+				4AB054F91C8FDFE2006FCFCA /* HealthCondition.swift */,
+				4AB054FA1C8FDFE2006FCFCA /* LocationCondition.swift */,
+				4AB054FB1C8FDFE2006FCFCA /* LocationOperation.swift */,
+				4AB054FC1C8FDFE2006FCFCA /* MutuallyExclusive.swift */,
+				4AB054FD1C8FDFE2006FCFCA /* NegatedCondition.swift */,
+				4AB054FE1C8FDFE2006FCFCA /* NoCancelledDependencies.swift */,
+				4AB054FF1C8FDFE2006FCFCA /* NSLock+Operations.swift */,
+				4AB055001C8FDFE2006FCFCA /* NSOperation+Operations.swift */,
+				4AB055011C8FDFE2006FCFCA /* Operation.swift */,
+				4AB055021C8FDFE2006FCFCA /* OperationCondition.swift */,
+				4AB055031C8FDFE2006FCFCA /* OperationErrors.swift */,
+				4AB055041C8FDFE2006FCFCA /* OperationObserver.swift */,
+				4AB055051C8FDFE2006FCFCA /* OperationQueue.swift */,
+				4AB055061C8FDFE2006FCFCA /* PassbookCondition.swift */,
+				4AB055071C8FDFE2006FCFCA /* PhotosCondition.swift */,
+				4AB055081C8FDFE2006FCFCA /* ReachabilityCondition.swift */,
+				4AB055091C8FDFE2006FCFCA /* RemoteNotificationCondition.swift */,
+				4AB0550A1C8FDFE2006FCFCA /* SilentCondition.swift */,
+				4AB0550B1C8FDFE2006FCFCA /* TimeoutObserver.swift */,
+				4AB0550C1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift */,
+				4AB0550D1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift */,
+				4AB0550E1C8FDFE2006FCFCA /* UserNotificationCondition.swift */,
+			);
+			path = "Base Operations";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +295,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AB055191C8FDFE2006FCFCA /* LocationCondition.swift in Sources */,
+				4AB0551B1C8FDFE2006FCFCA /* MutuallyExclusive.swift in Sources */,
+				4AB055231C8FDFE2006FCFCA /* OperationObserver.swift in Sources */,
+				4AB055131C8FDFE2006FCFCA /* CloudCondition.swift in Sources */,
+				4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */,
+				4AB0551C1C8FDFE2006FCFCA /* NegatedCondition.swift in Sources */,
+				4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */,
+				4AB055201C8FDFE2006FCFCA /* Operation.swift in Sources */,
+				4AB0552C1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift in Sources */,
+				4AB055241C8FDFE2006FCFCA /* OperationQueue.swift in Sources */,
+				4AB055151C8FDFE2006FCFCA /* Dictionary+Operations.swift in Sources */,
+				4AB0551D1C8FDFE2006FCFCA /* NoCancelledDependencies.swift in Sources */,
+				4AB0551A1C8FDFE2006FCFCA /* LocationOperation.swift in Sources */,
+				4AB055161C8FDFE2006FCFCA /* ExclusivityController.swift in Sources */,
+				4AB055261C8FDFE2006FCFCA /* PhotosCondition.swift in Sources */,
+				4AB055171C8FDFE2006FCFCA /* GroupOperation.swift in Sources */,
+				4AB055281C8FDFE2006FCFCA /* RemoteNotificationCondition.swift in Sources */,
+				4AB055111C8FDFE2006FCFCA /* CalendarCondition.swift in Sources */,
+				4AB0551E1C8FDFE2006FCFCA /* NSLock+Operations.swift in Sources */,
+				4AB0551F1C8FDFE2006FCFCA /* NSOperation+Operations.swift in Sources */,
+				4AB055211C8FDFE2006FCFCA /* OperationCondition.swift in Sources */,
+				4AB0552A1C8FDFE2006FCFCA /* TimeoutObserver.swift in Sources */,
+				4AB055251C8FDFE2006FCFCA /* PassbookCondition.swift in Sources */,
+				4AB055101C8FDFE2006FCFCA /* BlockOperation.swift in Sources */,
+				4AB055121C8FDFE2006FCFCA /* CKContainer+Operations.swift in Sources */,
+				4AB055141C8FDFE2006FCFCA /* DelayOperation.swift in Sources */,
+				4AB055291C8FDFE2006FCFCA /* SilentCondition.swift in Sources */,
+				4AB0552B1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift in Sources */,
+				4AB055221C8FDFE2006FCFCA /* OperationErrors.swift in Sources */,
+				4AB055181C8FDFE2006FCFCA /* HealthCondition.swift in Sources */,
+				4AB055271C8FDFE2006FCFCA /* ReachabilityCondition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
