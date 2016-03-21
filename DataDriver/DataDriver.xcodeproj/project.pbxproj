@@ -7,6 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A6A20A91C98AE96001D8A41 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20A81C98AE96001D8A41 /* DataLayer.swift */; };
+		4A6A20AB1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */; };
+		4A6A20AD1C98B59C001D8A41 /* OperationGraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */; };
+		4A6A20AF1C98B5AC001D8A41 /* StoreReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AE1C98B5AC001D8A41 /* StoreReference.swift */; };
+		4A6A20B11C98B5B2001D8A41 /* NetworkStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20B01C98B5B2001D8A41 /* NetworkStoreRequest.swift */; };
+		4A6A20B31C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20B21C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift */; };
+		4A6A20B51C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20B41C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift */; };
+		4A6A20B71C98B5FC001D8A41 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20B61C98B5FC001D8A41 /* Constants.swift */; };
+		4A6A20BA1C98BA3E001D8A41 /* TransactionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20B91C98BA3E001D8A41 /* TransactionOperation.swift */; };
+		4A6A20C21C98BB82001D8A41 /* EntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20BB1C98BB82001D8A41 /* EntityProcessor.swift */; };
+		4A6A20C31C98BB82001D8A41 /* InsertionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20BC1C98BB82001D8A41 /* InsertionFactory.swift */; };
+		4A6A20C41C98BB82001D8A41 /* UpdateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20BD1C98BB82001D8A41 /* UpdateFactory.swift */; };
+		4A6A20C51C98BB82001D8A41 /* DeletionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20BE1C98BB82001D8A41 /* DeletionFactory.swift */; };
+		4A6A20C61C98BB82001D8A41 /* RemoteStoreRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20BF1C98BB82001D8A41 /* RemoteStoreRequest.swift */; };
+		4A6A20C71C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20C01C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift */; };
+		4A6A20C91C98CA87001D8A41 /* RequestConstructionOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20C81C98CA87001D8A41 /* RequestConstructionOperation.swift */; };
+		4A6A20CB1C98CDE0001D8A41 /* RequestDataOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20CA1C98CDE0001D8A41 /* RequestDataOperation.swift */; };
+		4A6A20CD1C98D033001D8A41 /* RequestValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */; };
+		4A6A20CF1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */; };
+		4A6A20D11C98D0B8001D8A41 /* DataConditioningOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */; };
+		4A6A20D31C98D0DA001D8A41 /* ContextValidatorOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */; };
 		4AB054D91C8FDF08006FCFCA /* DataDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB054D81C8FDF08006FCFCA /* DataDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AB054E01C8FDF08006FCFCA /* DataDriver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB054D51C8FDF08006FCFCA /* DataDriver.framework */; };
 		4AB054E51C8FDF08006FCFCA /* DataDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054E41C8FDF08006FCFCA /* DataDriverTests.swift */; };
@@ -54,6 +75,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A6A20A81C98AE96001D8A41 /* DataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLayer.swift; sourceTree = "<group>"; };
+		4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreCoordinator.swift; sourceTree = "<group>"; };
+		4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationGraphManager.swift; sourceTree = "<group>"; };
+		4A6A20AE1C98B5AC001D8A41 /* StoreReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreReference.swift; sourceTree = "<group>"; };
+		4A6A20B01C98B5B2001D8A41 /* NetworkStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStoreRequest.swift; sourceTree = "<group>"; };
+		4A6A20B21C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStoreFetchRequest.swift; sourceTree = "<group>"; };
+		4A6A20B41C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkStoreSaveRequest.swift; sourceTree = "<group>"; };
+		4A6A20B61C98B5FC001D8A41 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		4A6A20B91C98BA3E001D8A41 /* TransactionOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionOperation.swift; sourceTree = "<group>"; };
+		4A6A20BB1C98BB82001D8A41 /* EntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntityProcessor.swift; path = DataDriver/EntityProcessor.swift; sourceTree = "<group>"; };
+		4A6A20BC1C98BB82001D8A41 /* InsertionFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InsertionFactory.swift; path = DataDriver/InsertionFactory.swift; sourceTree = "<group>"; };
+		4A6A20BD1C98BB82001D8A41 /* UpdateFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateFactory.swift; path = DataDriver/UpdateFactory.swift; sourceTree = "<group>"; };
+		4A6A20BE1C98BB82001D8A41 /* DeletionFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletionFactory.swift; path = DataDriver/DeletionFactory.swift; sourceTree = "<group>"; };
+		4A6A20BF1C98BB82001D8A41 /* RemoteStoreRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteStoreRequest.swift; path = DataDriver/RemoteStoreRequest.swift; sourceTree = "<group>"; };
+		4A6A20C01C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+RequestResponse.swift"; path = "DataDriver/NSURLRequest+RequestResponse.swift"; sourceTree = "<group>"; };
+		4A6A20C81C98CA87001D8A41 /* RequestConstructionOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestConstructionOperation.swift; sourceTree = "<group>"; };
+		4A6A20CA1C98CDE0001D8A41 /* RequestDataOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestDataOperation.swift; sourceTree = "<group>"; };
+		4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestValidation.swift; sourceTree = "<group>"; };
+		4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteStoreRequestOperation.swift; sourceTree = "<group>"; };
+		4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConditioningOperation.swift; sourceTree = "<group>"; };
+		4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextValidatorOperation.swift; sourceTree = "<group>"; };
 		4AB054D51C8FDF08006FCFCA /* DataDriver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataDriver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AB054D81C8FDF08006FCFCA /* DataDriver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataDriver.h; sourceTree = "<group>"; };
 		4AB054DA1C8FDF08006FCFCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +154,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A6A20B81C98B6A1001D8A41 /* Request Operations */ = {
+			isa = PBXGroup;
+			children = (
+				4A6A20B91C98BA3E001D8A41 /* TransactionOperation.swift */,
+				4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */,
+				4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */,
+				4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */,
+				4A6A20CA1C98CDE0001D8A41 /* RequestDataOperation.swift */,
+				4A6A20C81C98CA87001D8A41 /* RequestConstructionOperation.swift */,
+				4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */,
+				4A6A20C11C98BB82001D8A41 /* Remote Store Request Construction */,
+			);
+			name = "Request Operations";
+			sourceTree = "<group>";
+		};
+		4A6A20C11C98BB82001D8A41 /* Remote Store Request Construction */ = {
+			isa = PBXGroup;
+			children = (
+				4A6A20BB1C98BB82001D8A41 /* EntityProcessor.swift */,
+				4A6A20BC1C98BB82001D8A41 /* InsertionFactory.swift */,
+				4A6A20BD1C98BB82001D8A41 /* UpdateFactory.swift */,
+				4A6A20BE1C98BB82001D8A41 /* DeletionFactory.swift */,
+				4A6A20BF1C98BB82001D8A41 /* RemoteStoreRequest.swift */,
+				4A6A20C01C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift */,
+			);
+			name = "Remote Store Request Construction";
+			path = "../../../../Contracted Development/PREMO/Premo/Premo";
+			sourceTree = "<group>";
+		};
 		4AB054CB1C8FDF08006FCFCA = {
 			isa = PBXGroup;
 			children = (
@@ -134,8 +205,17 @@
 			isa = PBXGroup;
 			children = (
 				4AB054D81C8FDF08006FCFCA /* DataDriver.h */,
+				4A6A20A81C98AE96001D8A41 /* DataLayer.swift */,
+				4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */,
+				4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */,
+				4A6A20AE1C98B5AC001D8A41 /* StoreReference.swift */,
+				4A6A20B01C98B5B2001D8A41 /* NetworkStoreRequest.swift */,
+				4A6A20B41C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift */,
+				4A6A20B21C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift */,
+				4A6A20B61C98B5FC001D8A41 /* Constants.swift */,
 				4AB054DA1C8FDF08006FCFCA /* Info.plist */,
 				4AB054EF1C8FDFE2006FCFCA /* Base Operations */,
+				4A6A20B81C98B6A1001D8A41 /* Request Operations */,
 			);
 			path = DataDriver;
 			sourceTree = "<group>";
@@ -300,32 +380,53 @@
 				4AB055231C8FDFE2006FCFCA /* OperationObserver.swift in Sources */,
 				4AB055131C8FDFE2006FCFCA /* CloudCondition.swift in Sources */,
 				4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */,
+				4A6A20B51C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift in Sources */,
 				4AB0551C1C8FDFE2006FCFCA /* NegatedCondition.swift in Sources */,
 				4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */,
 				4AB055201C8FDFE2006FCFCA /* Operation.swift in Sources */,
 				4AB0552C1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift in Sources */,
+				4A6A20D31C98D0DA001D8A41 /* ContextValidatorOperation.swift in Sources */,
 				4AB055241C8FDFE2006FCFCA /* OperationQueue.swift in Sources */,
 				4AB055151C8FDFE2006FCFCA /* Dictionary+Operations.swift in Sources */,
 				4AB0551D1C8FDFE2006FCFCA /* NoCancelledDependencies.swift in Sources */,
+				4A6A20BA1C98BA3E001D8A41 /* TransactionOperation.swift in Sources */,
+				4A6A20AD1C98B59C001D8A41 /* OperationGraphManager.swift in Sources */,
+				4A6A20B71C98B5FC001D8A41 /* Constants.swift in Sources */,
 				4AB0551A1C8FDFE2006FCFCA /* LocationOperation.swift in Sources */,
 				4AB055161C8FDFE2006FCFCA /* ExclusivityController.swift in Sources */,
+				4A6A20C71C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift in Sources */,
 				4AB055261C8FDFE2006FCFCA /* PhotosCondition.swift in Sources */,
+				4A6A20AB1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift in Sources */,
 				4AB055171C8FDFE2006FCFCA /* GroupOperation.swift in Sources */,
 				4AB055281C8FDFE2006FCFCA /* RemoteNotificationCondition.swift in Sources */,
 				4AB055111C8FDFE2006FCFCA /* CalendarCondition.swift in Sources */,
 				4AB0551E1C8FDFE2006FCFCA /* NSLock+Operations.swift in Sources */,
+				4A6A20C41C98BB82001D8A41 /* UpdateFactory.swift in Sources */,
+				4A6A20B11C98B5B2001D8A41 /* NetworkStoreRequest.swift in Sources */,
 				4AB0551F1C8FDFE2006FCFCA /* NSOperation+Operations.swift in Sources */,
 				4AB055211C8FDFE2006FCFCA /* OperationCondition.swift in Sources */,
 				4AB0552A1C8FDFE2006FCFCA /* TimeoutObserver.swift in Sources */,
+				4A6A20C51C98BB82001D8A41 /* DeletionFactory.swift in Sources */,
 				4AB055251C8FDFE2006FCFCA /* PassbookCondition.swift in Sources */,
+				4A6A20C31C98BB82001D8A41 /* InsertionFactory.swift in Sources */,
+				4A6A20CD1C98D033001D8A41 /* RequestValidation.swift in Sources */,
 				4AB055101C8FDFE2006FCFCA /* BlockOperation.swift in Sources */,
+				4A6A20AF1C98B5AC001D8A41 /* StoreReference.swift in Sources */,
+				4A6A20C61C98BB82001D8A41 /* RemoteStoreRequest.swift in Sources */,
+				4A6A20A91C98AE96001D8A41 /* DataLayer.swift in Sources */,
 				4AB055121C8FDFE2006FCFCA /* CKContainer+Operations.swift in Sources */,
 				4AB055141C8FDFE2006FCFCA /* DelayOperation.swift in Sources */,
 				4AB055291C8FDFE2006FCFCA /* SilentCondition.swift in Sources */,
+				4A6A20B31C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift in Sources */,
+				4A6A20CB1C98CDE0001D8A41 /* RequestDataOperation.swift in Sources */,
 				4AB0552B1C8FDFE2006FCFCA /* UIUserNotifications+Operations.swift in Sources */,
+				4A6A20D11C98D0B8001D8A41 /* DataConditioningOperation.swift in Sources */,
 				4AB055221C8FDFE2006FCFCA /* OperationErrors.swift in Sources */,
+				4A6A20C91C98CA87001D8A41 /* RequestConstructionOperation.swift in Sources */,
 				4AB055181C8FDFE2006FCFCA /* HealthCondition.swift in Sources */,
+				4A6A20CF1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift in Sources */,
 				4AB055271C8FDFE2006FCFCA /* ReachabilityCondition.swift in Sources */,
+				4A6A20C21C98BB82001D8A41 /* EntityProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +609,7 @@
 				4AB054EB1C8FDF08006FCFCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4AB054EC1C8FDF08006FCFCA /* Build configuration list for PBXNativeTarget "DataDriverTests" */ = {
 			isa = XCConfigurationList;
@@ -516,6 +618,7 @@
 				4AB054EE1C8FDF08006FCFCA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
