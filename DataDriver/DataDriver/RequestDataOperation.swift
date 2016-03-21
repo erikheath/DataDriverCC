@@ -8,26 +8,72 @@
 
 import Foundation
 import CoreData
-/*
-TODO: Consider converting this to a URLSessionTransaction operation.
 
-*/
+struct RequestDataCondition: OperationCondition {
+
+    static let name = "RequestData"
+
+    static let isMutuallyExclusive = false
+
+    let partitionOp: RemoteStoreRequestOperation
+
+    let dataConditioner: DataConditioningOperation
+
+    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditioningOperation) {
+        self.partitionOp = partitionOp
+        self.dataConditioner = dataConditioner
+    }
+
+    func dependencyForOperation(operation: Operation) -> NSOperation? {
+        guard let operation = operation as? DataConditioningOperation else { return nil }
+
+        return RequestDataOperation(partitionOp: self.partitionOp, dataConditioner: operation)
+    }
+
+    func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
+        switch self.dataConditioner.dataRetrieved  {
+        case true:
+            completion(.Satisfied)
+
+        default:
+            let error = NSError(code: .ConditionFailed, userInfo: [
+                OperationConditionKey: self.dynamicType.name
+                ])
+
+            completion(.Failed(error))
+        }
+    }
+}
+
+
 class RequestDataOperation: Operation {
 
     var requestConstructed: Bool = false
 
+    let partitionOp: RemoteStoreRequestOperation
+
+    let dataConditioner: DataConditioningOperation
+
+    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditioningOperation) {
+        self.partitionOp = partitionOp
+        self.dataConditioner = dataConditioner
+    }
+
     override func execute() {
         do {
-                let resolvedRequest = try request.resolveURL()
-                let dataTask = self.URLSession.dataTaskWithRequest(resolvedRequest)
-                dataTask.resume()
-            }
-        } catch {
-            let userInfoDict:[String: AnyObject] = [kUnderlyingErrorsArrayKey: [error as NSError]]
-            NSNotificationCenter.defaultCenter().postNotificationName(kErrorNotification, object: nil, userInfo:userInfoDict)
-        }
+            self.partitionOp.resolvedURLRequest = try self.partitionOp.URLRequest?.resolveURL()
 
+            let downloadTask = self.partitionOp.URLSession.delegate != nil ? self.partitionOp.URLSession.downloadTaskWithRequest(self.partitionOp.resolvedURLRequest!) : self.partitionOp.URLSession.downloadTaskWithRequest(self.partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
+                if let location = location where error == nil {
+                    self.dataConditioner.dataRetrieved = true
+                    self.dataConditioner.dataToProcess = NSData(contentsOfURL: location)
+                }
+                self.finish()
+            })
+            downloadTask.resume()
+        } catch { }
     }
+
 
     
 }

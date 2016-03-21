@@ -23,6 +23,12 @@ class RemoteStoreRequestOperation: Operation {
      The URL that resulted from the partition processing.
      */
     var URLRequest: NSMutableURLRequest? = nil
+
+    /**
+     The resolved URL generated from the URLRequest
+     */
+    var resolvedURLRequest: NSMutableURLRequest? = nil
+
     /**
      The fetch or save changes request that generated the partition.
      */

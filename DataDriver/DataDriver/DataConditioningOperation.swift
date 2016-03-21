@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+
+
+class DataConditioningOperation: Operation {
+
+    var dataRetrieved: Bool = false
+
+    var dataToProcess: NSData? = nil
+}
