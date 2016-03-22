@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A47DD8E1CA0B0C300A232FD /* DataConditionerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD861CA0B0C300A232FD /* DataConditionerOperation.swift */; };
+		4A47DD8F1CA0B0C300A232FD /* JSONCollectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD871CA0B0C300A232FD /* JSONCollectionProcessor.swift */; };
+		4A47DD901CA0B0C300A232FD /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD881CA0B0C300A232FD /* JSONEntityProcessor.swift */; };
+		4A47DD911CA0B0C300A232FD /* JSONAttributeProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD891CA0B0C300A232FD /* JSONAttributeProcessor.swift */; };
+		4A47DD921CA0B0C300A232FD /* NotificationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8A1CA0B0C300A232FD /* NotificationProcessor.swift */; };
+		4A47DD931CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8B1CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift */; };
+		4A47DD941CA0B0C300A232FD /* JSONObjectConditioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8C1CA0B0C300A232FD /* JSONObjectConditioner.swift */; };
+		4A47DD951CA0B0C300A232FD /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8D1CA0B0C300A232FD /* ImageDataProcessor.swift */; };
 		4A6A20A91C98AE96001D8A41 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20A81C98AE96001D8A41 /* DataLayer.swift */; };
 		4A6A20AB1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */; };
 		4A6A20AD1C98B59C001D8A41 /* OperationGraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */; };
@@ -75,6 +83,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A47DD861CA0B0C300A232FD /* DataConditionerOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConditionerOperation.swift; sourceTree = "<group>"; };
+		4A47DD871CA0B0C300A232FD /* JSONCollectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCollectionProcessor.swift; sourceTree = "<group>"; };
+		4A47DD881CA0B0C300A232FD /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONEntityProcessor.swift; sourceTree = "<group>"; };
+		4A47DD891CA0B0C300A232FD /* JSONAttributeProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAttributeProcessor.swift; sourceTree = "<group>"; };
+		4A47DD8A1CA0B0C300A232FD /* NotificationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationProcessor.swift; sourceTree = "<group>"; };
+		4A47DD8B1CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObjectDataConditionerFactory.swift; sourceTree = "<group>"; };
+		4A47DD8C1CA0B0C300A232FD /* JSONObjectConditioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObjectConditioner.swift; sourceTree = "<group>"; };
+		4A47DD8D1CA0B0C300A232FD /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDataProcessor.swift; sourceTree = "<group>"; };
 		4A6A20A81C98AE96001D8A41 /* DataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLayer.swift; sourceTree = "<group>"; };
 		4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreCoordinator.swift; sourceTree = "<group>"; };
 		4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationGraphManager.swift; sourceTree = "<group>"; };
@@ -154,6 +170,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A47DD961CA0B0CD00A232FD /* Data Conditioning */ = {
+			isa = PBXGroup;
+			children = (
+				4A47DD861CA0B0C300A232FD /* DataConditionerOperation.swift */,
+				4A47DD871CA0B0C300A232FD /* JSONCollectionProcessor.swift */,
+				4A47DD881CA0B0C300A232FD /* JSONEntityProcessor.swift */,
+				4A47DD891CA0B0C300A232FD /* JSONAttributeProcessor.swift */,
+				4A47DD8A1CA0B0C300A232FD /* NotificationProcessor.swift */,
+				4A47DD8B1CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift */,
+				4A47DD8C1CA0B0C300A232FD /* JSONObjectConditioner.swift */,
+				4A47DD8D1CA0B0C300A232FD /* ImageDataProcessor.swift */,
+			);
+			name = "Data Conditioning";
+			sourceTree = "<group>";
+		};
 		4A6A20B81C98B6A1001D8A41 /* Request Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +195,7 @@
 				4A6A20CA1C98CDE0001D8A41 /* RequestDataOperation.swift */,
 				4A6A20C81C98CA87001D8A41 /* RequestConstructionOperation.swift */,
 				4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */,
+				4A47DD961CA0B0CD00A232FD /* Data Conditioning */,
 				4A6A20C11C98BB82001D8A41 /* Remote Store Request Construction */,
 			);
 			name = "Request Operations";
@@ -379,20 +411,25 @@
 				4AB0551B1C8FDFE2006FCFCA /* MutuallyExclusive.swift in Sources */,
 				4AB055231C8FDFE2006FCFCA /* OperationObserver.swift in Sources */,
 				4AB055131C8FDFE2006FCFCA /* CloudCondition.swift in Sources */,
+				4A47DD941CA0B0C300A232FD /* JSONObjectConditioner.swift in Sources */,
 				4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */,
+				4A47DD901CA0B0C300A232FD /* JSONEntityProcessor.swift in Sources */,
 				4A6A20B51C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift in Sources */,
 				4AB0551C1C8FDFE2006FCFCA /* NegatedCondition.swift in Sources */,
 				4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */,
 				4AB055201C8FDFE2006FCFCA /* Operation.swift in Sources */,
 				4AB0552C1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift in Sources */,
 				4A6A20D31C98D0DA001D8A41 /* ContextValidatorOperation.swift in Sources */,
+				4A47DD931CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift in Sources */,
 				4AB055241C8FDFE2006FCFCA /* OperationQueue.swift in Sources */,
 				4AB055151C8FDFE2006FCFCA /* Dictionary+Operations.swift in Sources */,
+				4A47DD951CA0B0C300A232FD /* ImageDataProcessor.swift in Sources */,
 				4AB0551D1C8FDFE2006FCFCA /* NoCancelledDependencies.swift in Sources */,
 				4A6A20BA1C98BA3E001D8A41 /* TransactionOperation.swift in Sources */,
 				4A6A20AD1C98B59C001D8A41 /* OperationGraphManager.swift in Sources */,
 				4A6A20B71C98B5FC001D8A41 /* Constants.swift in Sources */,
 				4AB0551A1C8FDFE2006FCFCA /* LocationOperation.swift in Sources */,
+				4A47DD8F1CA0B0C300A232FD /* JSONCollectionProcessor.swift in Sources */,
 				4AB055161C8FDFE2006FCFCA /* ExclusivityController.swift in Sources */,
 				4A6A20C71C98BB82001D8A41 /* NSURLRequest+RequestResponse.swift in Sources */,
 				4AB055261C8FDFE2006FCFCA /* PhotosCondition.swift in Sources */,
@@ -402,6 +439,7 @@
 				4AB055111C8FDFE2006FCFCA /* CalendarCondition.swift in Sources */,
 				4AB0551E1C8FDFE2006FCFCA /* NSLock+Operations.swift in Sources */,
 				4A6A20C41C98BB82001D8A41 /* UpdateFactory.swift in Sources */,
+				4A47DD911CA0B0C300A232FD /* JSONAttributeProcessor.swift in Sources */,
 				4A6A20B11C98B5B2001D8A41 /* NetworkStoreRequest.swift in Sources */,
 				4AB0551F1C8FDFE2006FCFCA /* NSOperation+Operations.swift in Sources */,
 				4AB055211C8FDFE2006FCFCA /* OperationCondition.swift in Sources */,
@@ -412,8 +450,10 @@
 				4A6A20CD1C98D033001D8A41 /* RequestValidation.swift in Sources */,
 				4AB055101C8FDFE2006FCFCA /* BlockOperation.swift in Sources */,
 				4A6A20AF1C98B5AC001D8A41 /* StoreReference.swift in Sources */,
+				4A47DD921CA0B0C300A232FD /* NotificationProcessor.swift in Sources */,
 				4A6A20C61C98BB82001D8A41 /* RemoteStoreRequest.swift in Sources */,
 				4A6A20A91C98AE96001D8A41 /* DataLayer.swift in Sources */,
+				4A47DD8E1CA0B0C300A232FD /* DataConditionerOperation.swift in Sources */,
 				4AB055121C8FDFE2006FCFCA /* CKContainer+Operations.swift in Sources */,
 				4AB055141C8FDFE2006FCFCA /* DelayOperation.swift in Sources */,
 				4AB055291C8FDFE2006FCFCA /* SilentCondition.swift in Sources */,

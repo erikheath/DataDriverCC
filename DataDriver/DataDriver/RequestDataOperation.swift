@@ -17,15 +17,15 @@ struct RequestDataCondition: OperationCondition {
 
     let partitionOp: RemoteStoreRequestOperation
 
-    let dataConditioner: DataConditioningOperation
+    let dataConditioner: DataConditionerOperation
 
-    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditioningOperation) {
+    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditionerOperation) {
         self.partitionOp = partitionOp
         self.dataConditioner = dataConditioner
     }
 
     func dependencyForOperation(operation: Operation) -> NSOperation? {
-        guard let operation = operation as? DataConditioningOperation else { return nil }
+        guard let operation = operation as? DataConditionerOperation else { return nil }
 
         return RequestDataOperation(partitionOp: self.partitionOp, dataConditioner: operation)
     }
@@ -52,9 +52,9 @@ class RequestDataOperation: Operation {
 
     let partitionOp: RemoteStoreRequestOperation
 
-    let dataConditioner: DataConditioningOperation
+    let dataConditioner: DataConditionerOperation
 
-    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditioningOperation) {
+    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditionerOperation) {
         self.partitionOp = partitionOp
         self.dataConditioner = dataConditioner
     }

@@ -50,6 +50,11 @@ class RemoteStoreRequestOperation: Operation {
     let URLSession: NSURLSession
 
     /**
+     Indicates if the updates to the partition's context have been validated.
+     */
+    var updatesValidated: Bool = false
+
+    /**
      A partition may generate additional partitions. These are stored here until the source partition completes
      */
     var generatedPartitionRequests = Array<RemoteStoreRequest>()
