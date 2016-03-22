@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "03B24A6531C3A8B0E0623D09B2174B239510107A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "03B24A6531C3A8B0E0623D09B2174B239510107A" : 0,
+    "0E4AE63D1E13DD6E926BD69239E9178F524B060C" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7B16769B-3184-41F5-8B16-F4E952A8DAE7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "03B24A6531C3A8B0E0623D09B2174B239510107A" : "DataDriver\/",
+    "0E4AE63D1E13DD6E926BD69239E9178F524B060C" : "..\/Contracted%20Development\/PREMO"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "DataDriver",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "DataDriver\/DataDriver.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CuratedCocoa\/DataDriver.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "03B24A6531C3A8B0E0623D09B2174B239510107A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CuratedCocoa\/PREMO.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0E4AE63D1E13DD6E926BD69239E9178F524B060C"
+    }
+  ]
+}
