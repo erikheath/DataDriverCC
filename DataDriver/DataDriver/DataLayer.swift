@@ -5,7 +5,7 @@
 import CoreData
 
 /**
- The DataLayer class is the top-level class in this data management system. Creating an instance of this class creates a ready to use stack with support for local stores, remote network stores, and in-memory stores. You control the type of stores created by passing in an array of one or more StoreReference objects. Each StoreReference object contain all of the information necessary to configure the internal persistent store coordinator to use the store (local, remote, or in-memory). To use more than one store, you must define a configuration with each store.
+ The DataLayer class is the top-level class in this data management system. Creating an instance of this class creates a ready to use stack with support for local stores, remote network stores, and in-memory stores. You control the type of stores created by passing in an array of one or more StoreReference objects. Each StoreReference object contains all of the information necessary to configure the internal persistent store coordinator to use the store (local, remote, or in-memory). To use more than one store, you must define a configuration.
  
  For example, you can store data that you only need to download infrequently in a local SQLite store, while storing temporary data that should be flushed everytime the app is restarted or returns from being suspended in an in-memory store. Various setups are supported, including the ability to fetch from specific stores. See the documentation for NSFetchRequest for a complete list of options.
 
@@ -13,9 +13,12 @@ import CoreData
 
  Due to the initialization chain in swift, it's not possible to refer to instance methods or to self until phase one of the initialization process is complete. As a result, variables that are declared with let that refer to values inside of the object being instantiated must be changed to an optional var to allow for an initial nil state that can be changed in phase two of initialization, or changed to a lazy var allowing the initialization to be put off until a later time (potentially even post initialization). For private variables, this is less of a concern as a class can usually control mutation, however, for public variables that should really be constant, this creates a challenge that should be remedied to give as much dependability as possible.
 
- This data management system uses private class (static) methods to deal with this design decision in swift. While it might seem strange to have static initialization methods for properties as factory-type static methods are generally only associated with entire class instances, private static methods have a number of advantages for this more complex initialization scenario that allow them to fit into the swift's two-phase initialization system.
+ This data management system uses private class (static) methods to deal with this design decision in swift. While it might seem strange to have static initialization methods for properties as factory-type static methods are generally only associated with entire class instances, private static methods have a number of advantages for this more complex initialization scenario that allow them to fit into swift's two-phase initialization system.
+
  - As class methods, they are immediately accessible during initialization, and like phase one of initialization, can not refer to the instance (self) being created.
+
  - As class methods, each one operates in a very encapsulted manner, meaning you need to pass whatever you want to use in versus referring to instance properties.
+
  - Because they are so encapsulated, they are easily testable: you can test both the construction and the assignment independently as well as in sequence.
 
  What this doesn't solve, and in fact where there is no current solution, is the phase one initialization of properties where the creation process can throw an error. You can not throw an error in phase one, which effectively means that if you have an initialization of a constant property that can throw and should make initialization fail, you can not declare it as a constant as all properties must have an initial known state before phase two where throwing is supported. There are ways to mask vars, for example with private setters or by making the var private with a computed property. The missed opportunity with these techniques is that they circumvent the intention of declaring something with let: it should only be set to a value once and the programmer should be prevented from accidentally setting it again. This is an extremely powerful construct that not only prevents problems, but also quickly localizes them (it's only set in one place after all).
@@ -46,10 +49,10 @@ public class DataLayer: NSObject {
      */
     public var refreshSeconds: Int {
         set {
-            if newValue > 1200 {
+            if newValue > 600 {
                 refreshDelay = newValue
             } else {
-                refreshDelay = 1200
+                refreshDelay = 600
             }
         }
 
@@ -57,12 +60,18 @@ public class DataLayer: NSObject {
             return refreshDelay
         }
     }
+    /**
+     Private storage for the refreshDelay public variable.
+     */
+    private var refreshDelay: Int = 600
 
-    private var refreshDelay: Int = 1200
+    /**
+     The last time the datalayer was refreshed.
+     */
     public private(set) var lastRefresh: NSDate? = nil
 
     /**
-     Turns auto-refresh on/off. By default, the data layer will not auto-refresh. If you set the data layer to auto-refresh, it will do so when the app comes to the foreground at intervals approximating the refreshSeconds property.
+     Turns auto-refresh on/off. By default, the data layer will not auto-refresh. If you set the data layer to auto-refresh, it will do so when the app is in the foreground at intervals approximating the refreshSeconds property.
      */
     public var autoRefresh: Bool {
         set {
@@ -76,12 +85,15 @@ public class DataLayer: NSObject {
         }
     }
 
+    /**
+     Private storage for the refreshData public variable.
+     */
     private var refreshData: Bool = false
 
     func applicationEnteredForeground(notification: NSNotification) {
         // Check the data refresh to see if it should be performed.
         if self.autoRefresh == true && NSTimeInterval(self.refreshSeconds) < abs((self.lastRefresh?.timeIntervalSinceNow)!) {
-                self.reset(true)
+            do { try self.reset(true) } catch { }
         } else if preloadComplete == true {
             loadingStatus = .NotLoading
             preloadComplete = true
@@ -93,6 +105,9 @@ public class DataLayer: NSObject {
     */
     public let preloadFetch: Array<NSFetchRequest>?
 
+    /**
+     The persistent stores used by the DataLayer represented as StoreReference objects.
+     */
     public private(set) var persistentStores: Array<StoreReference>
 
     /**
@@ -163,7 +178,7 @@ public class DataLayer: NSObject {
     }
 
     /**
-     The persistent store coordinator serves to coordinate write and reads from one or more stores. The coordinator provides access to the model, array of stores (local and in-memory), and coordinates reads and writes from / to network stores.
+     The persistent store coordinator serves to coordinate writes and reads from one or more stores. The coordinator provides access to the model, array of stores (local and in-memory), and is part of the coordination chain for reads and writes from / to network stores.
     */
     public let persistentStoreCoordinator: PersistentStoreCoordinator
 
@@ -182,8 +197,9 @@ public class DataLayer: NSObject {
 
     }
 
-    public var status: Bool = false
-
+    /**
+     If the DataLayer has a preload fetch assigned to it, this method receives a notification when the preload has completed. When overriding this method in a subclass, make sure to call this method within the overriding method.
+     */
     func preloadComplete(notification: NSNotification) {
         self.preloadComplete = true
         self.loadingStatus = .NotLoading
@@ -229,14 +245,7 @@ public class DataLayer: NSObject {
 
         super.init()
 
-        // End of Phase One Initialization. Begin Phase Two Initialization
-
-        // Add the stores
-//        do {
-//            for store in stores {
-//                let result = try coordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
-//            }
-//        } catch { }
+        // Begin Phase Two Initialization
 
         // Assign delegates, parent references to child objects, etc.
         self.persistentStoreCoordinator.dataManager = self
@@ -245,8 +254,9 @@ public class DataLayer: NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "preloadComplete:", name: "preloadComplete", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnteredForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
 
-        // Execute the preload fetch
-        self.reset(true)
+        // Add the stores and execute the preload fetch, if any.
+        try self.reset(true)
+
         // Initialization complete
     }
 
@@ -254,46 +264,53 @@ public class DataLayer: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    func reset(reload:Bool) -> Void {
-        do {
-            self.preloadComplete = false
-            self.loadingStatus = .Loading
-            lastRefresh = NSDate()
-            // Remove the stores from the coordinator
-            for store in self.persistentStoreCoordinator.persistentStores {
-                try self.persistentStoreCoordinator.removePersistentStore(store)
-            }
-            // Add the stores
-            for store in persistentStores {
-                try persistentStoreCoordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
-            }
-            self.masterContext.performBlockAndWait({ () -> Void in
-                self.masterContext.reset()
-            })
-            self.mainContext.reset()
-            self.networkContext.performBlockAndWait({ () -> Void in
-                self.networkContext.reset()
-            })
-            self.persistentStoreCoordinator.operationGraphManager.requestCount = 0
-            self.persistentStoreCoordinator.operationGraphManager.responseCount = 0
-        } catch { }
+    /**
+     Use this method to reset the DataLayer without changing the stores.
+     
+     - Parameter reload: If true, will cause the DataLayer to execute the preload fetch after resetting the DataLayer.
+     
+     - Warning: When the DataLayer is reset, the main context will be reset. This means that all managedObjects will become instantly invalid, all row counts incorrect, etc. Resetting is a completely destructive process. As a result, it is necessary to remove any dependencies to the main context prior to calling this method. For example, an instance of NSFetchedResultsController attached to a table can have problems when its context resets.
+     */
+    func reset(reload:Bool) throws -> Void {
+        self.preloadComplete = false
+        self.loadingStatus = .Loading
+        lastRefresh = NSDate()
+
+        // Remove the stores from the coordinator
+        for store in self.persistentStoreCoordinator.persistentStores {
+            try self.persistentStoreCoordinator.removePersistentStore(store)
+        }
+
+        // Add the stores
+        for store in persistentStores {
+            try persistentStoreCoordinator.addPersistentStoreWithType(store.storeType, configuration: store.configuration, URL: store.URL, options: store.options)
+        }
+
+        self.masterContext.performBlockAndWait({ () -> Void in
+            self.masterContext.reset()
+        })
+
+        self.mainContext.reset()
+
+        self.networkContext.performBlockAndWait({ () -> Void in
+            self.networkContext.reset()
+        })
 
         guard let _ = self.preloadFetch where reload == true else { return }
+
+        var error: NSError? = nil
         for request in self.preloadFetch! {
             self.masterContext.performBlock { () -> Void in
                 do {
                     try self.masterContext.executeFetchRequest(request)
-                } catch {
-                    /*
-                    TODO: Add a notification dispatch for any error
-
-                    */
+                } catch let internalError as NSError {
+                    error = internalError
                 }
             }
         }
 
+        if error != nil { throw error! }
     }
-
 
 }
 
