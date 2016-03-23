@@ -27,78 +27,12 @@ import CoreData
 */
 public class DataLayer: NSObject {
 
+    public weak var delegate: DataLayerDelegate? = nil
+
     /**
      A unique identifier provided at initialization that is used to retrieve various processing objects like data conditioners, url processor objects, etc. If you do not provide a stack ID at initialization, one will be created and assigned.
      */
     public let stackID: String
-
-    public enum DataLayerStatus: String {
-        case Loading = "DataLayerLoading"
-        case NotLoading = "DataLayerNotLoading"
-    }
-
-    public private(set) var loadingStatus: DataLayerStatus = .NotLoading
-
-    /**
-     If / when the preload fetch completes, this property will be set to true. This value is KVO compliant.
-     */
-    dynamic public private(set) var preloadComplete: Bool = false
-
-    /**
-     The number of seconds to wait before refreshing (re-executing the preload in this case) the data from the remote store. The minimum value is 10 minutes
-     */
-    public var refreshSeconds: Int {
-        set {
-            if newValue > 600 {
-                refreshDelay = newValue
-            } else {
-                refreshDelay = 600
-            }
-        }
-
-        get {
-            return refreshDelay
-        }
-    }
-    /**
-     Private storage for the refreshDelay public variable.
-     */
-    private var refreshDelay: Int = 600
-
-    /**
-     The last time the datalayer was refreshed.
-     */
-    public private(set) var lastRefresh: NSDate? = nil
-
-    /**
-     Turns auto-refresh on/off. By default, the data layer will not auto-refresh. If you set the data layer to auto-refresh, it will do so when the app is in the foreground at intervals approximating the refreshSeconds property.
-     */
-    public var autoRefresh: Bool {
-        set {
-            objc_sync_enter(self)
-            refreshData = newValue
-            objc_sync_exit(self)
-        }
-
-        get {
-            return refreshData
-        }
-    }
-
-    /**
-     Private storage for the refreshData public variable.
-     */
-    private var refreshData: Bool = false
-
-    func applicationEnteredForeground(notification: NSNotification) {
-        // Check the data refresh to see if it should be performed.
-        if self.autoRefresh == true && NSTimeInterval(self.refreshSeconds) < abs((self.lastRefresh?.timeIntervalSinceNow)!) {
-            do { try self.reset(true) } catch { }
-        } else if preloadComplete == true {
-            loadingStatus = .NotLoading
-            preloadComplete = true
-        }
-    }
 
     /**
      A preloadFetch is one or more NSFetchRequests that should be executed immediately upon successful object creation. Typically this will involve triggering an asynchronous fetch over the network for data that is not in one or more local stores. Because a preload does not return results to the initialization caller, it is strongly recommended that the request only be for object ids, and not for fully populated objects as this creates unnecessary processing overhead. All standard notifications are processed and dispatched with a preload fetch, which means that, depending on your initialization sequence, you may receive multiple notifications for requests you have not issued directly. Because of this, is essential to inspect the id of a notification to make certain that it corresponds to your request.
@@ -197,14 +131,6 @@ public class DataLayer: NSObject {
 
     }
 
-    /**
-     If the DataLayer has a preload fetch assigned to it, this method receives a notification when the preload has completed. When overriding this method in a subclass, make sure to call this method within the overriding method.
-     */
-    func preloadComplete(notification: NSNotification) {
-        self.preloadComplete = true
-        self.loadingStatus = .NotLoading
-    }
-
     // MARK: Object Lifecycle
 
     /**
@@ -250,10 +176,6 @@ public class DataLayer: NSObject {
         // Assign delegates, parent references to child objects, etc.
         self.persistentStoreCoordinator.dataManager = self
 
-        // Register for the notification for the preload fetch.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "preloadComplete:", name: "preloadComplete", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationEnteredForeground:", name: UIApplicationWillEnterForegroundNotification, object: nil)
-
         // Add the stores and execute the preload fetch, if any.
         try self.reset(true)
 
@@ -272,9 +194,6 @@ public class DataLayer: NSObject {
      - Warning: When the DataLayer is reset, the main context will be reset. This means that all managedObjects will become instantly invalid, all row counts incorrect, etc. Resetting is a completely destructive process. As a result, it is necessary to remove any dependencies to the main context prior to calling this method. For example, an instance of NSFetchedResultsController attached to a table can have problems when its context resets.
      */
     func reset(reload:Bool) throws -> Void {
-        self.preloadComplete = false
-        self.loadingStatus = .Loading
-        lastRefresh = NSDate()
 
         // Remove the stores from the coordinator
         for store in self.persistentStoreCoordinator.persistentStores {
