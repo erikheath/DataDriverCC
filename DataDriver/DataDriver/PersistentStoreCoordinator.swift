@@ -17,7 +17,7 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
     /**
      The operation graph manager used by the coordinator to prioritize and dispatch network operations.
     */
-    private(set) lazy var operationGraphManager: OperationGraphManager = OperationGraphManager(coordinator: self)
+    lazy private(set) var operationGraphManager: OperationGraphManager = OperationGraphManager(coordinator: self, delegate: self.dataManager?.delegate)
 
     // MARK: Conditional Processing
 
@@ -25,7 +25,7 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
      The override of the execute request method is used to insert conditional processing for network based requests. See the documentation for the parent class for a complete explanation of this method external to the changes made in this override.
     */
     override public func executeRequest(request: NSPersistentStoreRequest, withContext context: NSManagedObjectContext) throws -> AnyObject {
-        self.operationGraphManager.addTransactions(transactionRequest: request)
+        self.operationGraphManager.addTransaction(request)
         return try super.executeRequest(request, withContext: context)
     }
 }

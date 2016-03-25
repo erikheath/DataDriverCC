@@ -16,6 +16,7 @@
 		4A47DD941CA0B0C300A232FD /* JSONObjectConditioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8C1CA0B0C300A232FD /* JSONObjectConditioner.swift */; };
 		4A47DD951CA0B0C300A232FD /* ImageDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD8D1CA0B0C300A232FD /* ImageDataProcessor.swift */; };
 		4A47DD981CA2275B00A232FD /* DataLayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD971CA2275B00A232FD /* DataLayerDelegate.swift */; };
+		4A47DD9A1CA497F100A232FD /* TransactionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD991CA497F100A232FD /* TransactionDelegate.swift */; };
 		4A6A20A91C98AE96001D8A41 /* DataLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20A81C98AE96001D8A41 /* DataLayer.swift */; };
 		4A6A20AB1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */; };
 		4A6A20AD1C98B59C001D8A41 /* OperationGraphManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */; };
@@ -93,6 +94,7 @@
 		4A47DD8C1CA0B0C300A232FD /* JSONObjectConditioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObjectConditioner.swift; sourceTree = "<group>"; };
 		4A47DD8D1CA0B0C300A232FD /* ImageDataProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDataProcessor.swift; sourceTree = "<group>"; };
 		4A47DD971CA2275B00A232FD /* DataLayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLayerDelegate.swift; sourceTree = "<group>"; };
+		4A47DD991CA497F100A232FD /* TransactionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDelegate.swift; sourceTree = "<group>"; };
 		4A6A20A81C98AE96001D8A41 /* DataLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLayer.swift; sourceTree = "<group>"; };
 		4A6A20AA1C98AE9F001D8A41 /* PersistentStoreCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentStoreCoordinator.swift; sourceTree = "<group>"; };
 		4A6A20AC1C98B59C001D8A41 /* OperationGraphManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationGraphManager.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				4A6A20B91C98BA3E001D8A41 /* TransactionOperation.swift */,
+				4A47DD991CA497F100A232FD /* TransactionDelegate.swift */,
 				4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */,
 				4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */,
 				4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */,
@@ -417,6 +420,7 @@
 				4A47DD941CA0B0C300A232FD /* JSONObjectConditioner.swift in Sources */,
 				4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */,
 				4A47DD901CA0B0C300A232FD /* JSONEntityProcessor.swift in Sources */,
+				4A47DD9A1CA497F100A232FD /* TransactionDelegate.swift in Sources */,
 				4A6A20B51C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift in Sources */,
 				4AB0551C1C8FDFE2006FCFCA /* NegatedCondition.swift in Sources */,
 				4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */,

@@ -12,6 +12,4 @@ import Foundation
 
     optional func URLConfiguration(dataLayer: DataLayer, defaultURLConfiguration: NSURLSessionConfiguration) -> NSURLSessionConfiguration
 
-    
-
 }

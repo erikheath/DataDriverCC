@@ -10,11 +10,15 @@ import Foundation
 import CoreData
 
 
-
 /**
  The purpose of this operation is to construct a partition of a transaction based on a request, and to generate any additional RemoteStoreRequestOperations for requests that emerge from processing.
 */
 class RemoteStoreRequestOperation: Operation {
+
+    /**
+     The transaction the partition belongs to.
+     */
+    let transaction: TransactionOperation
 
     /**
      The combined request components that resulted from the partition processing.
@@ -37,14 +41,13 @@ class RemoteStoreRequestOperation: Operation {
     let storeRequest: NetworkStoreRequest
 
     /**
-     The graph manager that is in use by the transaction.
+     The context the partition uses to record and save any changes. This context is a child of the Transaction Context.
+     
+     - Note: This context uses the PrivateQueue concurrency model.
      */
-    let graphManager: OperationGraphManager
+    lazy private(set) var partitionContext: NSManagedObjectContext = {
 
-    /**
-     The context the partition uses to record and save any changes.
-     */
-    let partitionContext: NSManagedObjectContext
+    }()
 
     /**
      The session used by the transaction the partition is a part of to execute remote requests.
@@ -62,12 +65,10 @@ class RemoteStoreRequestOperation: Operation {
     var generatedPartitionRequests = Array<RemoteStoreRequest>()
 
     // MARK: - Object Lifecycle
-    init(storeRequest: NetworkStoreRequest, graphManager: OperationGraphManager, session: NSURLSession, context: NSManagedObjectContext) {
+    init(storeRequest: NetworkStoreRequest, transaction: TransactionOperation) {
         // Phase 1 initialization
         self.storeRequest = storeRequest
-        self.graphManager = graphManager
-        self.URLSession = session
-        self.partitionContext = context
+        self.transaction = transaction
 
         // Phase 2 initialization
 

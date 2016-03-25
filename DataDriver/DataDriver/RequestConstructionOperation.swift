@@ -94,19 +94,19 @@ class RequestConstructionOperation: Operation {
             throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
         }
         if let insertedObjects = request.insertedObjects {
-            guard let insertion = InsertionFactory.process(insertedObjects, stackID: self.partitionOp.graphManager.stackID).first else {
+            guard let insertion = InsertionFactory.process(insertedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return insertion
         }
         if let updatedObjects = request.updatedObjects {
-            guard let update = UpdateFactory.process(updatedObjects, stackID: self.partitionOp.graphManager.stackID).first else {
+            guard let update = UpdateFactory.process(updatedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return update
         }
         if let deletedObjects = request.deletedObjects {
-            guard let deletion = DeletionFactory.process(deletedObjects, stackID: self.partitionOp.graphManager.stackID).first else {
+            guard let deletion = DeletionFactory.process(deletedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return deletion

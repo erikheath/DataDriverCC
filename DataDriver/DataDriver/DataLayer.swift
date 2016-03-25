@@ -27,7 +27,10 @@ import CoreData
 */
 public class DataLayer: NSObject {
 
-    public weak var delegate: DataLayerDelegate? = nil
+    /**
+     The DataLayer delegate provides a complete access point for all delegate methods exposed by the various DataLayer protocols. Similar to NSURLSession and its set of protocols, you assign a delegate on initialization to handle delegate messages. The delegate of the DataLayer will receive all of the messages for any of the following protocols: DataLayerDelegate and TransactionDelegate.
+     */
+    public private(set) weak var delegate: DataLayerDelegate? = nil
 
     /**
      A unique identifier provided at initialization that is used to retrieve various processing objects like data conditioners, url processor objects, etc. If you do not provide a stack ID at initialization, one will be created and assigned.
@@ -90,28 +93,6 @@ public class DataLayer: NSObject {
     }
 
     /**
-     The network context serves as the context that coordinates receipt and posting of data from network store operations to the main context. The network context serves as the parent of various contexts that are temporarily created to handle data retrieval from one or more network stores / endpoints as well as a stable reference for asynchronous activity that needs to have a reliable path into the data management system.
-    */
-    public let networkContext: NSManagedObjectContext
-
-    /**
-     Initializer for the network context.
-     
-     - Parameter parentContext: The context that should be assigned as the parent of the newly created context.
-     
-     - Returns: An initialized managed context object with the name com.datadriverlayer.networkContext and the passed in context set as its parent.
-     */
-    private static func initializeNetworkContext(parentContext: NSManagedObjectContext) -> NSManagedObjectContext {
-
-        let managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        managedObjectContext.parentContext = parentContext
-        managedObjectContext.undoManager = nil
-        managedObjectContext.name = "com.datadriverlayer.networkContext"
-
-        return managedObjectContext
-    }
-
-    /**
      The persistent store coordinator serves to coordinate writes and reads from one or more stores. The coordinator provides access to the model, array of stores (local and in-memory), and is part of the coordination chain for reads and writes from / to network stores.
     */
     public let persistentStoreCoordinator: PersistentStoreCoordinator
@@ -148,11 +129,13 @@ public class DataLayer: NSObject {
     
     - Returns: On successful initialization, a fully prepared Core Data Stack.
     */
-    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: Array<NSFetchRequest>?, stackID: String?) throws {
+    public init(stores: [StoreReference], model: NSManagedObjectModel, preload: Array<NSFetchRequest>?, stackID: String?, delegate: DataLayerDelegate?) throws {
+
+        // Begin Phase One Initialization
 
         self.stackID = stackID != nil ? stackID! : NSUUID().UUIDString
 
-        // Begin Phase One Initialization
+        self.delegate = delegate
 
         self.preloadFetch = preload
 
@@ -160,13 +143,11 @@ public class DataLayer: NSObject {
         let coordinator = DataLayer.initializeCoordinator(model)
         let master = DataLayer.initializeMasterContext(coordinator)
         let main = DataLayer.initializeMainContext(master)
-        let network = DataLayer.initializeNetworkContext(main)
 
         // Assign the stack
         self.persistentStoreCoordinator = coordinator
         self.masterContext = master
         self.mainContext = main
-        self.networkContext = network
         self.persistentStores = stores
 
         super.init()
@@ -210,10 +191,6 @@ public class DataLayer: NSObject {
         })
 
         self.mainContext.reset()
-
-        self.networkContext.performBlockAndWait({ () -> Void in
-            self.networkContext.reset()
-        })
 
         guard let _ = self.preloadFetch where reload == true else { return }
 

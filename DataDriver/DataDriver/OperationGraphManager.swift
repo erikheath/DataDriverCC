@@ -5,7 +5,7 @@
 import CoreData
 
 /**
- The OperationGraphManager manages a serial queue of transactions that request and transmit data to remote stores. All of its public methods are thread-safe, and it can be managed through the public DataLayer interface and instance.
+ The OperationGraphManager manages a serial queue of transactions that request and transmit data to remote stores. All of its public methods are thread-safe, and it can be accessed through the public DataLayer interface and instance.
  
  In addition to its public methods, access to underlying objects, including the transaction queue are provided to allow for additional customization and management of critical code paths.
 */
@@ -14,31 +14,38 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
     // MARK : Properties
 
     /**
-    The URLConfiguration used by default for transaction sessions. You can override the URLConfiguration by returning a different configuration in the DataLayer delegate method URLConfiguration(dataLayer, defaultURLConfiguration).
+    The URLConfiguration used by default for transaction sessions. You can override the URLConfiguration by returning a different configuration in the DataLayer delegate method URLConfiguration(dataLayer, defaultURLConfiguration) which is called during initialization.
     */
-    lazy var URLConfiguration: NSURLSessionConfiguration = {
-        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.timeoutIntervalForRequest = 300
-
-        return self.coordinator.dataManager?.delegate?.URLConfiguration?(self.coordinator.dataManager!, defaultURLConfiguration: configuration) ?? configuration
-        }()
+    let URLConfiguration: NSURLSessionConfiguration
 
     /**
-     The internal setter for the PersistentStoreCoordinator(PSC). The PSC should only be set on initialization.
+     Private initializer for the URLConfiguration property.
      */
-    private(set) var coordinator: PersistentStoreCoordinator
+    private static func initializeURLConfiguration(dataManager: DataLayer, delegate: DataLayerDelegate?) -> NSURLSessionConfiguration {
+
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 300
+
+        return delegate?.URLConfiguration?(dataManager, defaultURLConfiguration: configuration) ?? configuration
+
+    }
+    
+    /**
+     The PersistentStoreCoordinator(PSC). The PSC is only set on initialization.
+     */
+    private(set) weak var coordinator: PersistentStoreCoordinator?
 
     /**
      A convenience reference to the stack ID of the parent DataLayer object.
      */
-    var stackID: String { return self.coordinator.dataManager?.stackID ?? "" }
+    var stackID: String { return self.coordinator?.dataManager?.stackID ?? "" }
 
     /**
      The fetch requests dictionary contains all of the fetch requests successfully processed by an OperationGraphManager instance. You can use this list to reissue all of the requests made during a particular period of time as an easy way to return the local cached data to a specific state.
      
      - Note: The entire operation graph is destroyed and recreated when the parent DataLayer is reset. To reissue the requests, make a copy of this list prior to resetting the DataLayer.
      */
-    var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
+    private(set) var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
 
     /**
      The operation queue used by the operation graph manager to dispatch transaction operations.
@@ -51,70 +58,48 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
         return opQueue
     }()
 
+    /**
+     The delegate will receive DataLayerDelegate messages from the graph manager.
+     */
+    private weak var delegate: DataLayerDelegate?
+
     // MARK: Object Life-Cycle
 
-    init (coordinator:PersistentStoreCoordinator) {
+    /**
+    An OperationGraphManager object is constructed by passing in a coordinator and optional delegate. On initialization, the object will send setup messages to its delegate, enabling limited customization of the graph manager.
+    
+    - Parameter coordinator: The PersistentStoreCoordinator that owns the graph manager.
+    
+    - Parameter delegate: An optional DataLayerDelegate instance that will receive all outbound delegate protocol messages.
+    */
+    init (coordinator:PersistentStoreCoordinator, delegate: DataLayerDelegate?) {
         self.coordinator = coordinator
+        self.delegate = delegate
+        self.URLConfiguration = OperationGraphManager.initializeURLConfiguration(coordinator.dataManager!, delegate: delegate)
         super.init()
     }
 
-    func addTransactions(transactionRequest: NSPersistentStoreRequest) -> Void {
+    /**
+     Adds a transaction based on a NSPersistentStoreRequest to the OperationGraphManager's internal queue.
+     
+     - Parameter transactionRequest: An NSPersistentStoreRequest. The actual type of the request subclass must be a NetworkStoreFetchRequest or NetworkStoreSaveRequest to generate a transaction. All other requests are processed and do not result in the creation of a transaction.
+     */
+    func addTransaction(transactionRequest: NSPersistentStoreRequest) -> Void {
         // Add the request processing as a block on the internal queue that depends on the pre-existing transactions to complete.
+        objc_sync_enter(self)
+        let blockOp = BlockOperation() { (continuation: Void -> Void) in
+            if let transactionRequest = transactionRequest as? NetworkStoreRequest  {
+                let proposedTransaction = TransactionOperation(request: transactionRequest, graphManager: self)
+                let currentOperations = self.queue.operations
+                for op in currentOperations {
+                    proposedTransaction.addDependency(op)
+                }
+                self.queue.addOperation(proposedTransaction)
+            }
+            continuation()
+        }
+        self.queue.addOperation(blockOp)
+        objc_sync_exit(self)
     }
-
-//requestProcessor: do {
-//
-//    if let request = request as? NetworkStoreFetchRequest  {
-//        var keyToUpdate:NSDate? = nil
-//
-//        // Has this request already been made and are the results still valid?
-//        for (key, value) in fetchRequests {
-//            if request.entity! == value.entity && request.predicate?.description == value.predicateString {
-//                if value.status == FulfillmentStatus.pending {
-//                    break requestProcessor
-//                } else if key.compare(NSDate()) != NSComparisonResult.OrderedDescending {
-//                    keyToUpdate = key
-//                    break
-//                } else {
-//                    break requestProcessor
-//                }
-//            }
-//        }
-//
-//        // Update the ttl for the expried key
-//        if keyToUpdate != nil {
-//            var timeToLive:Double = 0.0
-//            fetchRequests.removeValueForKey(keyToUpdate!)
-//            if request.entity!.userInfo?[kTimeToLive] != nil && request.entity!.userInfo?[kTimeToLive] is String {
-//                timeToLive = (request.entity!.userInfo![kTimeToLive] as? NSString)!.doubleValue
-//            }
-//            keyToUpdate = NSDate(timeIntervalSinceNow: timeToLive)
-//            fetchRequests.updateValue((request.entity!, request.predicate!.description, FulfillmentStatus.pending), forKey: keyToUpdate!)
-//        }
-//
-//        // if it's expired or doesn't exist, rerequest it.
-//        let overrideComponents:NSURLComponents? = context.userInfo[kOverrideComponents] as? NSURLComponents
-//        let overrideTokens:Dictionary<NSObject, AnyObject>? = context.userInfo[kOverrideTokens] as? Dictionary<NSObject, AnyObject>
-//        guard let requestEntity = request.entity as NSEntityDescription! else { break requestProcessor }
-//        let changeRequest = RemoteStoreRequest(entity: requestEntity, property: nil, predicate: request.predicate, URLOverrides: overrideComponents, overrideTokens: overrideTokens, methodType: .GET, methodBody: nil, destinationID: nil)
-//        self.operationGraphManager.requestNetworkStoreOperations([changeRequest])
-//
-//
-//    } else if let request = request as? NetworkStoreSaveRequest {
-//        saveRequests: do {
-//            guard let stackID = self.dataManager?.stackID else { break saveRequests }
-//            var changes:Array<RemoteStoreRequest> = []
-//            if let insertedObjects = request.insertedObjects {
-//                changes.appendContentsOf(InsertionFactory.process(insertedObjects, stackID: stackID))
-//            }
-//            if let updatedObjects = request.updatedObjects {
-//                changes.appendContentsOf(UpdateFactory.process(updatedObjects, stackID: stackID))
-//            }
-//            if let deletedObjects = request.deletedObjects {
-//                changes.appendContentsOf(DeletionFactory.process(deletedObjects, stackID: stackID))
-//            }
-//            self.operationGraphManager.requestNetworkStoreOperations(changes)
-//        }
-//    }
 
 }
