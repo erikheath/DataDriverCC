@@ -37,7 +37,6 @@
 		4A6A20CD1C98D033001D8A41 /* RequestValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */; };
 		4A6A20CF1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */; };
 		4A6A20D11C98D0B8001D8A41 /* DataConditioningOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */; };
-		4A6A20D31C98D0DA001D8A41 /* ContextValidatorOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */; };
 		4AB054D91C8FDF08006FCFCA /* DataDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB054D81C8FDF08006FCFCA /* DataDriver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AB054E01C8FDF08006FCFCA /* DataDriver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB054D51C8FDF08006FCFCA /* DataDriver.framework */; };
 		4AB054E51C8FDF08006FCFCA /* DataDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB054E41C8FDF08006FCFCA /* DataDriverTests.swift */; };
@@ -115,7 +114,6 @@
 		4A6A20CC1C98D033001D8A41 /* RequestValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestValidation.swift; sourceTree = "<group>"; };
 		4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteStoreRequestOperation.swift; sourceTree = "<group>"; };
 		4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConditioningOperation.swift; sourceTree = "<group>"; };
-		4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextValidatorOperation.swift; sourceTree = "<group>"; };
 		4AB054D51C8FDF08006FCFCA /* DataDriver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataDriver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AB054D81C8FDF08006FCFCA /* DataDriver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataDriver.h; sourceTree = "<group>"; };
 		4AB054DA1C8FDF08006FCFCA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 				4A6A20B91C98BA3E001D8A41 /* TransactionOperation.swift */,
 				4A47DD991CA497F100A232FD /* TransactionDelegate.swift */,
 				4A6A20CE1C98D09F001D8A41 /* RemoteStoreRequestOperation.swift */,
-				4A6A20D21C98D0DA001D8A41 /* ContextValidatorOperation.swift */,
 				4A6A20D01C98D0B8001D8A41 /* DataConditioningOperation.swift */,
 				4A6A20CA1C98CDE0001D8A41 /* RequestDataOperation.swift */,
 				4A6A20C81C98CA87001D8A41 /* RequestConstructionOperation.swift */,
@@ -426,7 +423,6 @@
 				4AB0552D1C8FDFE2006FCFCA /* UserNotificationCondition.swift in Sources */,
 				4AB055201C8FDFE2006FCFCA /* Operation.swift in Sources */,
 				4AB0552C1C8FDFE2006FCFCA /* URLSessionTaskOperation.swift in Sources */,
-				4A6A20D31C98D0DA001D8A41 /* ContextValidatorOperation.swift in Sources */,
 				4A47DD931CA0B0C300A232FD /* JSONObjectDataConditionerFactory.swift in Sources */,
 				4A47DD981CA2275B00A232FD /* DataLayerDelegate.swift in Sources */,
 				4AB055241C8FDFE2006FCFCA /* OperationQueue.swift in Sources */,
