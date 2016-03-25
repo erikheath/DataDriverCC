@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A111CCE1CA5F31300C7061F /* URLProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A111CCC1CA5F31300C7061F /* URLProcessor.swift */; };
+		4A111CCF1CA5F31300C7061F /* URLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A111CCD1CA5F31300C7061F /* URLResponse.swift */; };
 		4A47DD8E1CA0B0C300A232FD /* DataConditionerOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD861CA0B0C300A232FD /* DataConditionerOperation.swift */; };
 		4A47DD8F1CA0B0C300A232FD /* JSONCollectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD871CA0B0C300A232FD /* JSONCollectionProcessor.swift */; };
 		4A47DD901CA0B0C300A232FD /* JSONEntityProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A47DD881CA0B0C300A232FD /* JSONEntityProcessor.swift */; };
@@ -84,6 +86,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A111CCC1CA5F31300C7061F /* URLProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProcessor.swift; sourceTree = "<group>"; };
+		4A111CCD1CA5F31300C7061F /* URLResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLResponse.swift; sourceTree = "<group>"; };
 		4A47DD861CA0B0C300A232FD /* DataConditionerOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataConditionerOperation.swift; sourceTree = "<group>"; };
 		4A47DD871CA0B0C300A232FD /* JSONCollectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCollectionProcessor.swift; sourceTree = "<group>"; };
 		4A47DD881CA0B0C300A232FD /* JSONEntityProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONEntityProcessor.swift; sourceTree = "<group>"; };
@@ -248,6 +252,8 @@
 				4A6A20B41C98B5DD001D8A41 /* NetworkStoreSaveRequest.swift */,
 				4A6A20B21C98B5B8001D8A41 /* NetworkStoreFetchRequest.swift */,
 				4A6A20B61C98B5FC001D8A41 /* Constants.swift */,
+				4A111CCC1CA5F31300C7061F /* URLProcessor.swift */,
+				4A111CCD1CA5F31300C7061F /* URLResponse.swift */,
 				4AB054DA1C8FDF08006FCFCA /* Info.plist */,
 				4AB054EF1C8FDFE2006FCFCA /* Base Operations */,
 				4A6A20B81C98B6A1001D8A41 /* Request Operations */,
@@ -415,6 +421,7 @@
 				4AB055231C8FDFE2006FCFCA /* OperationObserver.swift in Sources */,
 				4AB055131C8FDFE2006FCFCA /* CloudCondition.swift in Sources */,
 				4A47DD941CA0B0C300A232FD /* JSONObjectConditioner.swift in Sources */,
+				4A111CCF1CA5F31300C7061F /* URLResponse.swift in Sources */,
 				4AB0550F1C8FDFE2006FCFCA /* BlockObserver.swift in Sources */,
 				4A47DD901CA0B0C300A232FD /* JSONEntityProcessor.swift in Sources */,
 				4A47DD9A1CA497F100A232FD /* TransactionDelegate.swift in Sources */,
@@ -442,6 +449,7 @@
 				4AB055281C8FDFE2006FCFCA /* RemoteNotificationCondition.swift in Sources */,
 				4AB055111C8FDFE2006FCFCA /* CalendarCondition.swift in Sources */,
 				4AB0551E1C8FDFE2006FCFCA /* NSLock+Operations.swift in Sources */,
+				4A111CCE1CA5F31300C7061F /* URLProcessor.swift in Sources */,
 				4A6A20C41C98BB82001D8A41 /* UpdateFactory.swift in Sources */,
 				4A47DD911CA0B0C300A232FD /* JSONAttributeProcessor.swift in Sources */,
 				4A6A20B11C98B5B2001D8A41 /* NetworkStoreRequest.swift in Sources */,
