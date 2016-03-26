@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
+/**
+ A condition to determine if a request needs to be constructed prior to a data request being made.
+ */
 struct RequestConstructionCondition: OperationCondition {
 
     static let name = "RequestConstruction"
@@ -25,7 +28,7 @@ struct RequestConstructionCondition: OperationCondition {
     }
 
     func dependencyForOperation(operation: Operation) -> NSOperation? {
-        guard let operation = operation as? RequestDataOperation else { return nil }
+        guard let operation = operation as? RequestDataOperation where partitionOp.partitionRequest == nil else { return nil }
 
         return RequestConstructionOperation(partitionOp: self.partitionOp, dataRequestor: operation)
     }

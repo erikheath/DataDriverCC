@@ -50,7 +50,7 @@ class TransactionOperation: GroupOperation {
     weak var delegate: TransactionDelegate? = nil
 
     // MARK: - Object Lifecycle
-    init (request:NetworkStoreRequest, graphManager: OperationGraphManager ) {
+    init (request:NetworkStoreRequest, graphManager: OperationGraphManager) {
 
         self.graphManager = graphManager
 
@@ -76,6 +76,10 @@ class TransactionOperation: GroupOperation {
             }
         }
 
+    }
+
+    func addRemoteStoreRequest(request: RemoteStoreRequest) {
+        
     }
 
     override func execute() {

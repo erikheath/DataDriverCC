@@ -67,7 +67,7 @@ class DataConditionerOperation: Operation {
             switch processingType {
 
             case .JSON:
-                try JSONCollectionProcessor(operationGraphManager: self.partitionOp.graphManager, stackID: self.partitionOp.graphManager.stackID).processJSONDataStructure(self.dataToProcess!, request: self.partitionOp.URLRequest!, context: self.partitionOp.partitionContext)
+                try JSONCollectionProcessor(transaction: self.partitionOp.transaction, stackID: self.partitionOp.transaction.graphManager!.stackID).processJSONDataStructure(self.dataToProcess!, request: self.partitionOp.URLRequest!, context: self.partitionOp.partitionContext)
 
             case .Image:
                 try ImageDataProcessor().processImageData(self.dataToProcess!, request: self.partitionOp.URLRequest!, context: self.partitionOp.partitionContext)

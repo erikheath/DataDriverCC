@@ -99,7 +99,7 @@ private class RemoteNotificationPermissionOperation: Operation {
         dispatch_async(dispatch_get_main_queue()) {
             let notificationCenter = NSNotificationCenter.defaultCenter()
             
-            notificationCenter.addObserver(self, selector: "didReceiveResponse:", name: RemoteNotificationName, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(self.didReceiveResponse), name: RemoteNotificationName, object: nil)
             
             self.application.registerForRemoteNotifications()
         }

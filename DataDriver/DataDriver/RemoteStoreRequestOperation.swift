@@ -38,16 +38,23 @@ class RemoteStoreRequestOperation: Operation {
     /**
      The fetch or save changes request that generated the partition.
      */
-    let storeRequest: NetworkStoreRequest
+    private(set) var storeRequest: NetworkStoreRequest? = nil
 
     /**
      The context the partition uses to record and save any changes. This context is a child of the Transaction Context.
      
      - Note: This context uses the PrivateQueue concurrency model.
      */
-    lazy private(set) var partitionContext: NSManagedObjectContext = {
+    let partitionContext: NSManagedObjectContext
 
-    }()
+    /**
+     Private initializer for the partition context.
+     */
+    private static func initializePartitionContext(transaction: TransactionOperation) -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        context.parentContext = transaction.transactionContext
+        return context
+    }
 
     /**
      The session used by the transaction the partition is a part of to execute remote requests.
@@ -65,10 +72,27 @@ class RemoteStoreRequestOperation: Operation {
     var generatedPartitionRequests = Array<RemoteStoreRequest>()
 
     // MARK: - Object Lifecycle
-    init(storeRequest: NetworkStoreRequest, transaction: TransactionOperation) {
-        // Phase 1 initialization
+
+    convenience init(storeRequest: NetworkStoreRequest, transaction: TransactionOperation) {
+        self.init(transaction: transaction)
         self.storeRequest = storeRequest
+
+        self.addCondition(DataConditionerCondition(partitionOp: self))
+    }
+
+    convenience init(partitionRequest: RemoteStoreRequest, transaction: TransactionOperation) {
+        self.init(transaction: transaction)
+        self.partitionRequest = partitionRequest
+
+        self.addCondition(DataConditionerCondition(partitionOp: self))
+
+    }
+
+    init(transaction: TransactionOperation) {
+        // Phase 1 initialization
         self.transaction = transaction
+        self.partitionContext = RemoteStoreRequestOperation.initializePartitionContext(transaction)
+        self.URLSession = transaction.URLSession
 
         // Phase 2 initialization
 

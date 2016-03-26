@@ -19,7 +19,7 @@ public class NotificationProcessor: NSObject {
 
         let notification = NSNotification(name: kObjectIDsForRequestNotification, object: nil, userInfo: notificationInfo)
 
-        NSNotificationCenter.defaultCenter().performSelectorOnMainThread("postNotification:", withObject: notification, waitUntilDone: false)
+        NSNotificationCenter.defaultCenter().performSelectorOnMainThread(#selector(NSNotificationCenter.postNotification(_:)), withObject: notification, waitUntilDone: false)
     }
 
     /**
@@ -38,7 +38,7 @@ public class NotificationProcessor: NSObject {
 
         let notification = NSNotification(name: kErrorNotification, object: nil, userInfo: notificationInfo)
 
-        NSNotificationCenter.defaultCenter().performSelectorOnMainThread("postNotification:", withObject: notification, waitUntilDone: false)
+        NSNotificationCenter.defaultCenter().performSelectorOnMainThread(#selector(NSNotificationCenter.postNotification(_:)), withObject: notification, waitUntilDone: false)
 
     }
 }

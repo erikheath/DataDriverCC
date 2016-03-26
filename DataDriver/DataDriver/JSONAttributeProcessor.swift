@@ -7,13 +7,13 @@ import CoreData
 
 public class JSONAttributeProcessor: NSObject {
 
-    private var operationGraphManager: OperationGraphManager
+    private var transaction: TransactionOperation
 
     private var stackID: String
 
-    public init(operationGraphManager: OperationGraphManager, stackID: String) {
+    init(transaction: TransactionOperation, stackID: String) {
         self.stackID = stackID
-        self.operationGraphManager = operationGraphManager
+        self.transaction = transaction
     }
     
     /**
@@ -234,11 +234,12 @@ public class JSONAttributeProcessor: NSObject {
                 if let processor = URLProcessorFactory.processor(targetEntityName, stackID: self.stackID) {
                     let changeRequestArray = processor.process(changeRequest) // This is where customization can occur
                     if changeRequestArray.count > 0 {
-                        self.operationGraphManager.requestNetworkStoreOperations(changeRequestArray)
+                        for changeRequest in changeRequestArray {
+                            self.transaction.addRemoteStoreRequest(changeRequest)
+                        }
                     }
                 } else {
-                    
-                    self.operationGraphManager.requestNetworkStoreOperations([changeRequest])
+                    self.transaction.addRemoteStoreRequest(changeRequest)
                 }
                 
             }

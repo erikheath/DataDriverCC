@@ -57,6 +57,9 @@ class RequestDataOperation: Operation {
     init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditionerOperation) {
         self.partitionOp = partitionOp
         self.dataConditioner = dataConditioner
+        super.init()
+
+        self.addCondition(RequestConstructionCondition(partitionOp: self.partitionOp, dataRequestor: self))
     }
 
     override func execute() {

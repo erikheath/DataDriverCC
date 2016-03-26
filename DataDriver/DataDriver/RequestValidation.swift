@@ -57,8 +57,8 @@ class RequestValidation: Operation {
     let requestConstructor: RequestConstructionOperation
 
     init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
-        self.graphManager = partitionOp.graphManager
-        self.request = partitionOp.storeRequest
+        self.graphManager = partitionOp.transaction.graphManager!
+        self.request = partitionOp.storeRequest!
         self.requestConstructor = requestConstructor
     }
 

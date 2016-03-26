@@ -5,7 +5,7 @@
 import CoreData
 
 /**
- The OperationGraphManager manages a serial queue of transactions that request and transmit data to remote stores. All of its public methods are thread-safe, and it can be accessed through the public DataLayer interface and instance.
+ The OperationGraphManager manages a serial queue of transactions that request and transmit data to remote stores.
  
  In addition to its public methods, access to underlying objects, including the transaction queue are provided to allow for additional customization and management of critical code paths.
 */
@@ -45,7 +45,7 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
      
      - Note: The entire operation graph is destroyed and recreated when the parent DataLayer is reset. To reissue the requests, make a copy of this list prior to resetting the DataLayer.
      */
-    private(set) var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
+    var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
 
     /**
      The operation queue used by the operation graph manager to dispatch transaction operations.
