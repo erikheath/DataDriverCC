@@ -67,7 +67,7 @@ class RequestValidation: Operation {
 
     convenience init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
         self.init()
-        self.graphManager = partitionOp.transaction.graphManager!
+        self.graphManager = partitionOp.transaction!.graphManager!
         self.request = partitionOp.storeRequest!
         self.requestConstructor = requestConstructor
     }

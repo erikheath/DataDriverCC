@@ -73,7 +73,7 @@ class RequestDataOperation: Operation {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             partitionOp.resolvedURLRequest = try partitionOp.URLRequest?.resolveURL()
-            let downloadTask = partitionOp.URLSession.delegate != nil ? partitionOp.URLSession.downloadTaskWithRequest(partitionOp.resolvedURLRequest!) : partitionOp.URLSession.downloadTaskWithRequest(partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
+            let downloadTask = partitionOp.URLSession!.delegate != nil ? partitionOp.URLSession!.downloadTaskWithRequest(partitionOp.resolvedURLRequest!) : partitionOp.URLSession!.downloadTaskWithRequest(partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
                 if let location = location where error == nil {
                     dataConditioner.dataRetrieved = true
                     dataConditioner.dataToProcess = NSData(contentsOfURL: location)

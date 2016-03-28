@@ -15,7 +15,7 @@ struct DataConditionerCondition: OperationCondition {
 
     static let isMutuallyExclusive = false
 
-    let partitionOp: RemoteStoreRequestOperation? = nil
+    var partitionOp: RemoteStoreRequestOperation? = nil
 
     init(partitionOp: RemoteStoreRequestOperation) {
         self.partitionOp = partitionOp
@@ -24,11 +24,11 @@ struct DataConditionerCondition: OperationCondition {
     func dependencyForOperation(operation: Operation) -> NSOperation? {
         guard let operation = operation as? DataConditionerOperation else { return nil }
 
-        return RequestDataOperation(partitionOp: partitionOp, dataConditioner: operation)
+        return RequestDataOperation(partitionOp: partitionOp!, dataConditioner: operation)
     }
 
     func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
-        switch self.partitionOp.updatesValidated  {
+        switch self.partitionOp!.updatesValidated  {
         case true:
             completion(.Satisfied)
 
@@ -69,7 +69,7 @@ class DataConditionerOperation: Operation {
             return
         }
 
-        partitionOp.partitionContext.performBlockAndWait({
+        partitionOp.partitionContext!.performBlockAndWait({
             processor: do {
 
                 let processingType = try self.validateURLResponseType()
@@ -77,10 +77,10 @@ class DataConditionerOperation: Operation {
                 switch processingType {
 
                 case .JSON:
-                    try JSONCollectionProcessor(transaction: partitionOp.transaction, stackID: partitionOp.transaction.graphManager!.stackID).processJSONDataStructure(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext)
+                    try JSONCollectionProcessor(transaction: partitionOp.transaction!, stackID: partitionOp.transaction!.graphManager!.stackID).processJSONDataStructure(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext!)
 
                 case .Image:
-                    try ImageDataProcessor().processImageData(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext)
+                    try ImageDataProcessor().processImageData(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext!)
                 }
 
                 try self.saveContexts()
@@ -220,7 +220,7 @@ class DataConditionerOperation: Operation {
 
         do {
             guard let partitionOp = self.partitionOp else { throw NSError(domain: "DataLayer", code: 1000, userInfo: nil) }
-            try self.saveContext(partitionOp.partitionContext, fixValidationErrors: true)
+            try self.saveContext(partitionOp.partitionContext!, fixValidationErrors: true)
 
         } catch {
             throw error as NSError
