@@ -11,14 +11,14 @@ import CoreData
 
 /**
 */
-class TransactionOperation: GroupOperation {
+public class TransactionOperation: GroupOperation {
 
     // MARK: - Properties
 
     /**
     The owner of the transaction.
     */
-    weak private(set) var graphManager: OperationGraphManager?
+    weak private(set) var graphManager: OperationGraphManager? = nil
 
     /**
     Each transaction has a context that is the parent of each partition it contains. A transaction context aggregates all of the changes made by each partition. In the event of a failure to aggregate the changes of a partition, the transaction will fail unless the context is cleaned up by the transaction's delegate.
@@ -50,36 +50,42 @@ class TransactionOperation: GroupOperation {
     weak var delegate: TransactionDelegate? = nil
 
     // MARK: - Object Lifecycle
-    init (request:NetworkStoreRequest, graphManager: OperationGraphManager) {
 
+    init() {
+        super.init(operations: [])
+    }
+
+    convenience init (request:NetworkStoreRequest, graphManager: OperationGraphManager) {
+
+        self.init()
         self.graphManager = graphManager
-
-        super.init(operations: Array<Operation>())
 
         // Each of these corresponds to a transaction partition, which is a set of
         // operations that make up the chain of actions necessary to request and
         // process data for a specific URL.
         if let request = request as? NetworkStoreFetchRequest  {
             self.addOperation(RemoteStoreRequestOperation(storeRequest: request, transaction: self))
-        } else if let request = request as? NetworkStoreSaveRequest {
+        } else if let request = request as? NSSaveChangesRequest {
             if let deletedObjects = request.deletedObjects {
-                let saveReq = NetworkStoreSaveRequest(insertedObjects: nil, updatedObjects: nil, deletedObjects: deletedObjects, lockedObjects: nil)
+                var saveReq = NetworkStoreSaveRequest(insertedObjects: nil, updatedObjects: nil, deletedObjects: deletedObjects, lockedObjects: nil)
+                saveReq = self.delegate?.networkStoreSaveRequest?(self, currentRequest: saveReq, originalRequest: request) ?? saveReq
                 self.addOperation(RemoteStoreRequestOperation(storeRequest: saveReq, transaction: self))
             }
             if let insertedObjects = request.insertedObjects {
-                let saveReq = NetworkStoreSaveRequest(insertedObjects: insertedObjects, updatedObjects: nil, deletedObjects: nil, lockedObjects: nil)
+                var saveReq = NetworkStoreSaveRequest(insertedObjects: insertedObjects, updatedObjects: nil, deletedObjects: nil, lockedObjects: nil)
+                saveReq = self.delegate?.networkStoreSaveRequest?(self, currentRequest: saveReq, originalRequest: request) ?? saveReq
                 self.addOperation(RemoteStoreRequestOperation(storeRequest: saveReq, transaction: self))
             }
             if let updatedObjects = request.updatedObjects {
-                let saveReq = NetworkStoreSaveRequest(insertedObjects: nil, updatedObjects: updatedObjects, deletedObjects: nil, lockedObjects: nil)
+                var saveReq = NetworkStoreSaveRequest(insertedObjects: nil, updatedObjects: updatedObjects, deletedObjects: nil, lockedObjects: nil)
+                saveReq = self.delegate?.networkStoreSaveRequest?(self, currentRequest: saveReq, originalRequest: request) ?? saveReq
                 self.addOperation(RemoteStoreRequestOperation(storeRequest: saveReq, transaction: self))
             }
         }
-
     }
 
     func addRemoteStoreRequest(request: RemoteStoreRequest) {
-        
+        self.addOperation(RemoteStoreRequestOperation(partitionRequest: request, transaction: self))
     }
 
     override func execute() {

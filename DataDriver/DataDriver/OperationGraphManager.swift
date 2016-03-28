@@ -16,17 +16,21 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
     /**
     The URLConfiguration used by default for transaction sessions. You can override the URLConfiguration by returning a different configuration in the DataLayer delegate method URLConfiguration(dataLayer, defaultURLConfiguration) which is called during initialization.
     */
-    let URLConfiguration: NSURLSessionConfiguration
+    public let URLConfiguration: NSURLSessionConfiguration
 
     /**
      Private initializer for the URLConfiguration property.
      */
-    private static func initializeURLConfiguration(dataManager: DataLayer, delegate: DataLayerDelegate?) -> NSURLSessionConfiguration {
+    private static func initializeURLConfiguration(dataManager: DataLayer?) -> NSURLSessionConfiguration {
 
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.timeoutIntervalForRequest = 300
 
-        return delegate?.URLConfiguration?(dataManager, defaultURLConfiguration: configuration) ?? configuration
+        guard let dataManager = dataManager else {
+            return configuration
+        }
+
+        return dataManager.delegate?.URLConfiguration?(dataManager, defaultURLConfiguration: configuration) ?? configuration
 
     }
     
@@ -38,19 +42,19 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
     /**
      A convenience reference to the stack ID of the parent DataLayer object.
      */
-    var stackID: String { return self.coordinator?.dataManager?.stackID ?? "" }
+    public var stackID: String { return self.coordinator?.dataManager?.stackID ?? "" }
 
     /**
      The fetch requests dictionary contains all of the fetch requests successfully processed by an OperationGraphManager instance. You can use this list to reissue all of the requests made during a particular period of time as an easy way to return the local cached data to a specific state.
      
      - Note: The entire operation graph is destroyed and recreated when the parent DataLayer is reset. To reissue the requests, make a copy of this list prior to resetting the DataLayer.
      */
-    var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
+    public var fetchRequests:Dictionary<NSDate, (entity: NSEntityDescription, predicateString: String?, status: FulfillmentStatus)> = Dictionary()
 
     /**
      The operation queue used by the operation graph manager to dispatch transaction operations.
      */
-    lazy private(set) var queue: OperationQueue = {
+    lazy public private(set) var queue: OperationQueue = {
         let opQueue = OperationQueue()
         opQueue.maxConcurrentOperationCount = 1
         opQueue.name = "com.datadriverlayer.operationGraphManagerQueue"
@@ -75,7 +79,8 @@ public class OperationGraphManager: NSObject, OperationQueueDelegate {
     init (coordinator:PersistentStoreCoordinator, delegate: DataLayerDelegate?) {
         self.coordinator = coordinator
         self.delegate = delegate
-        self.URLConfiguration = OperationGraphManager.initializeURLConfiguration(coordinator.dataManager!, delegate: delegate)
+
+        self.URLConfiguration = OperationGraphManager.initializeURLConfiguration(coordinator.dataManager)
         super.init()
     }
 

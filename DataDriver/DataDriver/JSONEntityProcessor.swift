@@ -165,11 +165,9 @@ public class JSONEntityProcessor: NSObject {
         }
 
         let managedObject = NSManagedObject(entity: entity, insertIntoManagedObjectContext: context)
-        context.performBlockAndWait({ () -> Void in
-            do {
-                try context.obtainPermanentIDsForObjects([managedObject])
-            } catch { objectIDError = error  }
-        })
+        do {
+            try context.obtainPermanentIDsForObjects([managedObject])
+        } catch { objectIDError = error  }
 
         if objectIDError != nil { throw objectIDError! }
 
@@ -217,21 +215,19 @@ public class JSONEntityProcessor: NSObject {
 
                 var results:Array<AnyObject> = Array()
                 var contextError: ErrorType? = nil
-                context.performBlockAndWait({ () -> Void in
-                    do {
-                        results = try context.executeFetchRequest(request)
-                    } catch {
-                        contextError = error
-                    }
-                })
+                do {
+                    results = try context.executeFetchRequest(request)
+                } catch {
+                    contextError = error
+                }
 
                 if contextError != nil { throw contextError! }
-                
+
                 return (results as NSArray).firstObject as? NSManagedObject
             }
-            
+
         } catch {
-            
+
             throw error
         }
 

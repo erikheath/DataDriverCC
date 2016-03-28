@@ -50,31 +50,40 @@ class RequestDataOperation: Operation {
 
     var requestConstructed: Bool = false
 
-    let partitionOp: RemoteStoreRequestOperation
+    var partitionOp: RemoteStoreRequestOperation? = nil
 
-    let dataConditioner: DataConditionerOperation
+    var dataConditioner: DataConditionerOperation? = nil
 
-    init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditionerOperation) {
+    convenience init(partitionOp: RemoteStoreRequestOperation, dataConditioner: DataConditionerOperation) {
+        self.init()
+
         self.partitionOp = partitionOp
         self.dataConditioner = dataConditioner
-        super.init()
+        self.addCondition(RequestConstructionCondition(partitionOp: self.partitionOp!, dataRequestor: self))
+    }
 
-        self.addCondition(RequestConstructionCondition(partitionOp: self.partitionOp, dataRequestor: self))
+    override init() {
+        super.init()
     }
 
     override func execute() {
-        do {
-            self.partitionOp.resolvedURLRequest = try self.partitionOp.URLRequest?.resolveURL()
 
-            let downloadTask = self.partitionOp.URLSession.delegate != nil ? self.partitionOp.URLSession.downloadTaskWithRequest(self.partitionOp.resolvedURLRequest!) : self.partitionOp.URLSession.downloadTaskWithRequest(self.partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
+        do {
+            guard let partitionOp = self.partitionOp, let dataConditioner = self.dataConditioner else {
+                throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
+            }
+            partitionOp.resolvedURLRequest = try partitionOp.URLRequest?.resolveURL()
+            let downloadTask = partitionOp.URLSession.delegate != nil ? partitionOp.URLSession.downloadTaskWithRequest(partitionOp.resolvedURLRequest!) : partitionOp.URLSession.downloadTaskWithRequest(partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
                 if let location = location where error == nil {
-                    self.dataConditioner.dataRetrieved = true
-                    self.dataConditioner.dataToProcess = NSData(contentsOfURL: location)
+                    dataConditioner.dataRetrieved = true
+                    dataConditioner.dataToProcess = NSData(contentsOfURL: location)
                 }
-                self.finish()
+
             })
             downloadTask.resume()
         } catch { }
+
+        self.finish()
     }
 
 

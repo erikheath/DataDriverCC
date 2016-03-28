@@ -27,7 +27,7 @@ public class StoreReference: NSObject {
     /**
      A Dictionary containing any of the option key value pairs defined and supported for the store type by the NSPersistentStoreCoordinator class.
      */
-    public let options: [NSObject : AnyObject]?
+    public let options: Dictionary<NSObject, AnyObject>?
 
     /**
      Creates a new storeReference object that can be used when initializing a Data Layer. If multiple stores will be used, the configuration parameter may not be nil.
@@ -42,7 +42,7 @@ public class StoreReference: NSObject {
 
      - Returns: An initialzed StoreReference object suitable for use during DataLayer initialization.
      */
-    public init (storeType: String, configuration: String?, URL: NSURL?, options: [NSObject : AnyObject]?) {
+    public init (storeType: String, configuration: String?, URL: NSURL?, options: Dictionary<NSObject , AnyObject>?) {
 
         self.storeType = storeType
         self.configuration = configuration

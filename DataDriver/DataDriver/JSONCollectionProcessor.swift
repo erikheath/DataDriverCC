@@ -146,9 +146,7 @@ public class JSONCollectionProcessor: NSObject {
             var managedObject:NSManagedObject? = nil
 
             if let _ = request.destinationObjectID {
-                context.performBlockAndWait({ () -> Void in
-                    managedObject = context.objectWithID(request.destinationObjectID!)
-                })
+                managedObject = context.objectWithID(request.destinationObjectID!)
             } else {
                 managedObject = try self.managedObjectForRemoteStore(JSONObject, entity: entity, context: context)
             }
@@ -207,13 +205,11 @@ public class JSONCollectionProcessor: NSObject {
 
                 var results: Array<AnyObject> = Array()
                 var fetchError: ErrorType? = nil
-                context.performBlockAndWait({ () -> Void in
-                    do {
-                        results = try context.executeFetchRequest(request)
-                    } catch {
-                        fetchError = error
-                    }
-                })
+                do {
+                    results = try context.executeFetchRequest(request)
+                } catch {
+                    fetchError = error
+                }
 
                 if fetchError != nil { }
                 managedObject = (results as NSArray).firstObject as? NSManagedObject
@@ -222,17 +218,15 @@ public class JSONCollectionProcessor: NSObject {
             var objectIDError: ErrorType? = nil
             if managedObject == nil {
                 let object = NSManagedObject(entity: entity, insertIntoManagedObjectContext: context)
-                context.performBlockAndWait({ () -> Void in
-                    do {
-                        try context.obtainPermanentIDsForObjects([object])
-                    } catch { objectIDError = error  }
-                })
+                do {
+                    try context.obtainPermanentIDsForObjects([object])
+                } catch { objectIDError = error  }
 
                 if objectIDError != nil { throw objectIDError! }
-                
+
                 managedObject = object
             }
-            
+
             return managedObject!
             
         } catch {

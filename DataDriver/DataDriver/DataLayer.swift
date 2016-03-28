@@ -174,7 +174,7 @@ public class DataLayer: NSObject {
      
      - Warning: When the DataLayer is reset, the main context will be reset. This means that all managedObjects will become instantly invalid, all row counts incorrect, etc. Resetting is a completely destructive process. As a result, it is necessary to remove any dependencies to the main context prior to calling this method. For example, an instance of NSFetchedResultsController attached to a table can have problems when its context resets.
      */
-    func reset(reload:Bool) throws -> Void {
+    public func reset(reload:Bool) throws -> Void {
 
         // Remove the stores from the coordinator
         for store in self.persistentStoreCoordinator.persistentStores {

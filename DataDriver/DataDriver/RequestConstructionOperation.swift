@@ -30,7 +30,7 @@ struct RequestConstructionCondition: OperationCondition {
     func dependencyForOperation(operation: Operation) -> NSOperation? {
         guard let operation = operation as? RequestDataOperation where partitionOp.partitionRequest == nil else { return nil }
 
-        return RequestConstructionOperation(partitionOp: self.partitionOp, dataRequestor: operation)
+        return RequestConstructionOperation(partitionOp: self.partitionOp, dataRequestor: operation, conditionalize: true)
     }
 
     func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
@@ -51,34 +51,36 @@ struct RequestConstructionCondition: OperationCondition {
 
 class RequestConstructionOperation: Operation {
 
-    let partitionOp: RemoteStoreRequestOperation
+    var partitionOp: RemoteStoreRequestOperation? = nil
 
-    let dataRequestor: RequestDataOperation
+    var dataRequestor: RequestDataOperation? = nil
 
     var processedRequest: NSMutableURLRequest? = nil
 
     var requestValidated: Bool = false
 
     // MARK: - Object Lifecycle
-    init (partitionOp: RemoteStoreRequestOperation, dataRequestor: RequestDataOperation) {
+    convenience init (partitionOp: RemoteStoreRequestOperation, dataRequestor: RequestDataOperation) {
+        self.init()
 
         self.partitionOp = partitionOp
-
         self.dataRequestor = dataRequestor
-
-        super.init()
-
-        addCondition(RequestValidationCondition(partitionOp: self.partitionOp, requestConstructor: self))
 
     }
 
-    func processStoreFetchRequest() throws -> RemoteStoreRequest {
-        guard let request = self.partitionOp.storeRequest as? NetworkStoreFetchRequest,
-              let requestEntity = request.entity as NSEntityDescription! else {
-              throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
-        }
+    convenience init(partitionOp: RemoteStoreRequestOperation, dataRequestor: RequestDataOperation, conditionalize: Bool) {
+        self.init(partitionOp: partitionOp, dataRequestor: dataRequestor)
 
-        let context = self.partitionOp.partitionContext
+        if conditionalize {
+            addCondition(RequestValidationCondition(partitionOp: self.partitionOp!, requestConstructor: self))
+        }
+    }
+
+    override init() {
+        super.init()
+    }
+
+    func processStoreFetchRequest(request: NetworkStoreFetchRequest, requestEntity: NSEntityDescription, context: NSManagedObjectContext) throws -> RemoteStoreRequest {
 
         let overrideComponents:NSURLComponents? = context.userInfo[kOverrideComponents] as? NSURLComponents
 
@@ -92,24 +94,22 @@ class RequestConstructionOperation: Operation {
         return NSMutableURLRequest(entity: request.entity, property: request.property, predicate: request.predicate, URLOverrides: request.URLOverrides, overrideTokens: request.overrideTokens, destinationID: request.destinationID)
     }
 
-    func processStoreSaveRequest() throws -> RemoteStoreRequest {
-        guard let request = self.partitionOp.storeRequest as? NetworkStoreSaveRequest else {
-            throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
-        }
+    func processStoreSaveRequest(request: NetworkStoreSaveRequest, stackID: String) throws -> RemoteStoreRequest {
+
         if let insertedObjects = request.insertedObjects {
-            guard let insertion = InsertionFactory.process(insertedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
+            guard let insertion = InsertionFactory.process(insertedObjects, stackID: stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return insertion
         }
         if let updatedObjects = request.updatedObjects {
-            guard let update = UpdateFactory.process(updatedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
+            guard let update = UpdateFactory.process(updatedObjects, stackID: stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return update
         }
         if let deletedObjects = request.deletedObjects {
-            guard let deletion = DeletionFactory.process(deletedObjects, stackID: self.partitionOp.transaction.graphManager!.stackID).first else {
+            guard let deletion = DeletionFactory.process(deletedObjects, stackID: stackID).first else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             return deletion
@@ -128,19 +128,32 @@ class RequestConstructionOperation: Operation {
     }
 
     override func execute() {
+
         do {
-            switch self.partitionOp.storeRequest {
+            switch self.partitionOp?.storeRequest {
+
             case is NetworkStoreFetchRequest:
-                self.partitionOp.partitionRequest = try self.processStoreFetchRequest()
-                self.partitionOp.URLRequest = self.generateRemoteStoreFetchRequest(self.partitionOp.partitionRequest!)
+                guard let request = self.partitionOp?.storeRequest as? NetworkStoreFetchRequest,
+                    let requestEntity = request.entity as NSEntityDescription!, let context = self.partitionOp?.partitionContext else {
+                        throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
+                }
+                self.partitionOp?.partitionRequest = try self.processStoreFetchRequest(request, requestEntity: requestEntity, context: context)
+                self.partitionOp?.URLRequest = self.generateRemoteStoreFetchRequest((self.partitionOp?.partitionRequest)!)
+
             case is NetworkStoreSaveRequest:
-                self.partitionOp.partitionRequest = try self.processStoreSaveRequest()
-                self.partitionOp.URLRequest = self.generateRemoteStoreSaveRequest(self.partitionOp.partitionRequest!)
+                guard let request = self.partitionOp?.storeRequest as? NetworkStoreSaveRequest, let stackID = self.partitionOp?.transaction.graphManager?.stackID else {
+                    throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
+                }
+                self.partitionOp?.partitionRequest = try self.processStoreSaveRequest(request, stackID: stackID)
+                self.partitionOp?.URLRequest = self.generateRemoteStoreSaveRequest((self.partitionOp?.partitionRequest)!)
+
             default:
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
+
             // Set the requestConstructed flag to true to indicate that the request has been constructed successfully, thereby meeting the condition.
-            self.dataRequestor.requestConstructed = true
+            self.dataRequestor?.requestConstructed = true
+
         } catch { }
 
         finish()

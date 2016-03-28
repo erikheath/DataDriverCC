@@ -21,7 +21,7 @@ import Foundation
     subsequent operations (still within the outer `GroupOperation`) that will all
     be executed before the rest of the operations in the initial chain of operations.
 */
-class GroupOperation: Operation {
+public class GroupOperation: Operation {
     private let internalQueue = OperationQueue()
     private let startingOperation = NSBlockOperation(block: {})
     private let finishingOperation = NSBlockOperation(block: {})
@@ -44,7 +44,7 @@ class GroupOperation: Operation {
         }
     }
     
-    override func cancel() {
+    override public func cancel() {
         internalQueue.cancelAllOperations()
         super.cancel()
     }
@@ -73,7 +73,7 @@ class GroupOperation: Operation {
 }
 
 extension GroupOperation: OperationQueueDelegate {
-    final func operationQueue(operationQueue: OperationQueue, willAddOperation operation: NSOperation) {
+    final public func operationQueue(operationQueue: OperationQueue, willAddOperation operation: NSOperation) {
         assert(!finishingOperation.finished && !finishingOperation.executing, "cannot add new operations to a group after the group has completed")
         
         /*
@@ -97,7 +97,7 @@ extension GroupOperation: OperationQueueDelegate {
         }
     }
     
-    final func operationQueue(operationQueue: OperationQueue, operationDidFinish operation: NSOperation, withErrors errors: [NSError]) {
+    final public func operationQueue(operationQueue: OperationQueue, operationDidFinish operation: NSOperation, withErrors errors: [NSError]) {
         aggregatedErrors.appendContentsOf(errors)
         
         if operation === finishingOperation {

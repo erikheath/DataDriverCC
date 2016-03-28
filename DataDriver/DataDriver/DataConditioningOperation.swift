@@ -15,7 +15,7 @@ struct DataConditionerCondition: OperationCondition {
 
     static let isMutuallyExclusive = false
 
-    let partitionOp: RemoteStoreRequestOperation
+    let partitionOp: RemoteStoreRequestOperation? = nil
 
     init(partitionOp: RemoteStoreRequestOperation) {
         self.partitionOp = partitionOp
@@ -48,10 +48,15 @@ class DataConditionerOperation: Operation {
 
     var dataToProcess: NSData? = nil
 
-    let partitionOp: RemoteStoreRequestOperation
+    var partitionOp: RemoteStoreRequestOperation? = nil
 
-    init(partitionOp: RemoteStoreRequestOperation) {
+    convenience init(partitionOp: RemoteStoreRequestOperation) {
+        self.init()
         self.partitionOp = partitionOp
+    }
+
+    override init() {
+        super.init()
     }
 
     override func execute() {
@@ -60,26 +65,33 @@ class DataConditionerOperation: Operation {
             finish()
         }
 
-        processor: do {
-
-            let processingType = try self.validateURLResponseType()
-
-            switch processingType {
-
-            case .JSON:
-                try JSONCollectionProcessor(transaction: self.partitionOp.transaction, stackID: self.partitionOp.transaction.graphManager!.stackID).processJSONDataStructure(self.dataToProcess!, request: self.partitionOp.URLRequest!, context: self.partitionOp.partitionContext)
-
-            case .Image:
-                try ImageDataProcessor().processImageData(self.dataToProcess!, request: self.partitionOp.URLRequest!, context: self.partitionOp.partitionContext)
-            }
-
-            try saveContexts()
-            self.partitionOp.updatesValidated = true
-        } catch {
-            // The save failed or has left the context in an inconsistent state.
-            self.partitionOp.updatesValidated = false
+        guard let partitionOp = self.partitionOp else {
+            return
         }
 
+        partitionOp.partitionContext.performBlockAndWait({
+            processor: do {
+
+                let processingType = try self.validateURLResponseType()
+
+                switch processingType {
+
+                case .JSON:
+                    try JSONCollectionProcessor(transaction: partitionOp.transaction, stackID: partitionOp.transaction.graphManager!.stackID).processJSONDataStructure(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext)
+
+                case .Image:
+                    try ImageDataProcessor().processImageData(self.dataToProcess!, request: partitionOp.URLRequest!, context: partitionOp.partitionContext)
+                }
+
+                try self.saveContexts()
+                partitionOp.updatesValidated = true
+            } catch {
+                // The save failed or has left the context in an inconsistent state.
+                partitionOp.updatesValidated = false
+            }
+            
+        })
+        
     }
 
     // MARK: Utilities
@@ -114,7 +126,11 @@ class DataConditionerOperation: Operation {
      */
     func validateURLResponseType() throws -> URLResponseProcessingType {
 
-        guard let entity = self.partitionOp.URLRequest?.requestEntity else {
+        guard let partitionOp = self.partitionOp else {
+            throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
+        }
+
+        guard let entity = partitionOp.URLRequest?.requestEntity else {
             throw DataConditionerError.missingEntity
         }
 
@@ -122,7 +138,7 @@ class DataConditionerOperation: Operation {
             throw DataConditionerError.missingEntityUserInfo
         }
 
-        switch self.partitionOp.URLRequest?.requestProperty {
+        switch partitionOp.URLRequest?.requestProperty {
 
         case let targetProperty where targetProperty is NSRelationshipDescription:
 
@@ -161,36 +177,33 @@ class DataConditionerOperation: Operation {
 
         var saveError: ErrorType? = nil
 
-        context.performBlockAndWait { () -> Void in
+        var caughtError: NSError? = nil
 
-            var caughtError: NSError? = nil
-
-            do {
-                if context.hasChanges {
-                    try context.save()
-                    return
-                } else {
-                    return
-                }
-            } catch {
-                caughtError = error as NSError
+        do {
+            if context.hasChanges {
+                try context.save()
+                return
+            } else {
+                return
             }
-
-            do {
-                if caughtError != nil && fixValidationErrors == true {
-                    try self.processValidationErrors(caughtError!, context: context)
-                    try context.save()
-                    //                    print("Saved without errors now")
-                    return
-                }
-            } catch {
-                caughtError = error as NSError
-                //                print(caughtError)
-            }
-
-            saveError = caughtError
-
+        } catch {
+            caughtError = error as NSError
         }
+
+        do {
+            if caughtError != nil && fixValidationErrors == true {
+                try self.processValidationErrors(caughtError!, context: context)
+                try context.save()
+                //                    print("Saved without errors now")
+                return
+            }
+        } catch {
+            caughtError = error as NSError
+            //                print(caughtError)
+        }
+
+        saveError = caughtError
+
 
         if let _ = saveError {
             throw saveError!
@@ -206,8 +219,8 @@ class DataConditionerOperation: Operation {
     func saveContexts() throws {
 
         do {
-
-            try self.saveContext(self.partitionOp.partitionContext, fixValidationErrors: true)
+            guard let partitionOp = self.partitionOp else { throw NSError(domain: "DataLayer", code: 1000, userInfo: nil) }
+            try self.saveContext(partitionOp.partitionContext, fixValidationErrors: true)
 
         } catch {
             throw error as NSError

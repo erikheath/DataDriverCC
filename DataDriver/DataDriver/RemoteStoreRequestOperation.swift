@@ -13,12 +13,12 @@ import CoreData
 /**
  The purpose of this operation is to construct a partition of a transaction based on a request, and to generate any additional RemoteStoreRequestOperations for requests that emerge from processing.
 */
-class RemoteStoreRequestOperation: Operation {
+public class RemoteStoreRequestOperation: Operation {
 
     /**
      The transaction the partition belongs to.
      */
-    let transaction: TransactionOperation
+    var transaction: TransactionOperation? = nil
 
     /**
      The combined request components that resulted from the partition processing.
@@ -45,21 +45,21 @@ class RemoteStoreRequestOperation: Operation {
      
      - Note: This context uses the PrivateQueue concurrency model.
      */
-    let partitionContext: NSManagedObjectContext
+    var partitionContext: NSManagedObjectContext? = nil
 
     /**
      Private initializer for the partition context.
      */
-    private static func initializePartitionContext(transaction: TransactionOperation) -> NSManagedObjectContext {
+    internal static func initializePartitionContext(transaction: TransactionOperation?) -> NSManagedObjectContext {
         let context = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        context.parentContext = transaction.transactionContext
+        context.parentContext = transaction?.transactionContext
         return context
     }
 
     /**
      The session used by the transaction the partition is a part of to execute remote requests.
      */
-    let URLSession: NSURLSession
+    var URLSession: NSURLSession? = nil
 
     /**
      Indicates if the updates to the partition's context have been validated.
@@ -74,28 +74,32 @@ class RemoteStoreRequestOperation: Operation {
     // MARK: - Object Lifecycle
 
     convenience init(storeRequest: NetworkStoreRequest, transaction: TransactionOperation) {
-        self.init(transaction: transaction)
-        self.storeRequest = storeRequest
 
+        self.init(transaction: transaction)
+
+        self.storeRequest = storeRequest
         self.addCondition(DataConditionerCondition(partitionOp: self))
     }
 
     convenience init(partitionRequest: RemoteStoreRequest, transaction: TransactionOperation) {
-        self.init(transaction: transaction)
-        self.partitionRequest = partitionRequest
 
+        self.init(transaction: transaction)
+
+        self.partitionRequest = partitionRequest
         self.addCondition(DataConditionerCondition(partitionOp: self))
 
     }
 
-    init(transaction: TransactionOperation) {
-        // Phase 1 initialization
+    convenience init(transaction: TransactionOperation) {
+        self.init()
         self.transaction = transaction
         self.partitionContext = RemoteStoreRequestOperation.initializePartitionContext(transaction)
         self.URLSession = transaction.URLSession
 
-        // Phase 2 initialization
+    }
 
+    override init() {
+        super.init()
     }
 }
 

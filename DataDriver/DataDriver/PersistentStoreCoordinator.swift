@@ -12,12 +12,12 @@ public class PersistentStoreCoordinator: NSPersistentStoreCoordinator {
     /**
      The parent data manager the coordinator supports.
     */
-    weak var dataManager: DataLayer?
+    public weak var dataManager: DataLayer?
 
     /**
      The operation graph manager used by the coordinator to prioritize and dispatch network operations.
     */
-    lazy private(set) var operationGraphManager: OperationGraphManager = OperationGraphManager(coordinator: self, delegate: self.dataManager?.delegate)
+    lazy public private(set) var operationGraphManager: OperationGraphManager = OperationGraphManager(coordinator: self, delegate: self.dataManager?.delegate)
 
     // MARK: Conditional Processing
 

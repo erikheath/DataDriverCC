@@ -15,23 +15,32 @@ struct RequestValidationCondition: OperationCondition {
 
     static let isMutuallyExclusive = false
 
-    let partitionOp: RemoteStoreRequestOperation
+    var partitionOp: RemoteStoreRequestOperation? = nil
 
-    let requestConstructor: RequestConstructionOperation
+    var requestConstructor: RequestConstructionOperation? = nil
 
     init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
+        self.init()
         self.partitionOp = partitionOp
         self.requestConstructor = requestConstructor
     }
 
-    func dependencyForOperation(operation: Operation) -> NSOperation? {
-        guard let operation = operation as? RequestConstructionOperation else { return nil }
+    init() {
 
-        return RequestValidation(partitionOp: self.partitionOp, requestConstructor: operation)
+    }
+
+    func dependencyForOperation(operation: Operation) -> NSOperation? {
+        guard let operation = operation as? RequestConstructionOperation, let _ = self.partitionOp else { return nil }
+
+        return RequestValidation(partitionOp: self.partitionOp!, requestConstructor: operation)
     }
 
     func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
-        switch self.requestConstructor.requestValidated  {
+        guard let operation = operation as? RequestConstructionOperation else {
+            completion(.Satisfied)
+            return
+        }
+        switch operation.requestValidated  {
         case true:
             completion(.Satisfied)
 
@@ -50,25 +59,32 @@ struct RequestValidationCondition: OperationCondition {
 */
 class RequestValidation: Operation {
 
-    let request: NetworkStoreRequest
+    var request: NetworkStoreRequest? = nil
 
-    let graphManager: OperationGraphManager
+    var graphManager: OperationGraphManager? = nil
 
-    let requestConstructor: RequestConstructionOperation
+    var requestConstructor: RequestConstructionOperation? = nil
 
-    init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
+    convenience init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
+        self.init()
         self.graphManager = partitionOp.transaction.graphManager!
         self.request = partitionOp.storeRequest!
         self.requestConstructor = requestConstructor
     }
 
+    override init() {
+        super.init()
+    }
+
     override func execute() {
         requestProcessor: do {
             if let request = request as? NetworkStoreFetchRequest  {
+
                 var keyToUpdate:NSDate? = nil
+                guard let graphManager = self.graphManager, let requestConstructor = self.requestConstructor else { return }
 
                 // Has this request already been made and are the results still valid?
-                for (key, value) in self.graphManager.fetchRequests {
+                for (key, value) in graphManager.fetchRequests {
                     if request.entity! == value.entity && request.predicate?.description == value.predicateString {
                         if value.status == FulfillmentStatus.pending {
                             break requestProcessor
@@ -84,16 +100,16 @@ class RequestValidation: Operation {
                 // Update the ttl for the expried key
                 if keyToUpdate != nil {
                     var timeToLive:Double = 0.0
-                    self.graphManager.fetchRequests.removeValueForKey(keyToUpdate!)
+                    graphManager.fetchRequests.removeValueForKey(keyToUpdate!)
                     if request.entity!.userInfo?[kTimeToLive] != nil && request.entity!.userInfo?[kTimeToLive] is String {
                         timeToLive = (request.entity!.userInfo![kTimeToLive] as? NSString)!.doubleValue
                     }
                     keyToUpdate = NSDate(timeIntervalSinceNow: timeToLive)
-                    self.graphManager.fetchRequests.updateValue((request.entity!, request.predicate!.description, FulfillmentStatus.pending), forKey: keyToUpdate!)
+                    graphManager.fetchRequests.updateValue((request.entity!, request.predicate!.description, FulfillmentStatus.pending), forKey: keyToUpdate!)
                 }
 
                 // Set the request as being a valid request on the constructor, thereby meeting the condition.
-                self.requestConstructor.requestValidated = true
+                requestConstructor.requestValidated = true
             }
         }
     }
