@@ -69,11 +69,13 @@ class RequestDataOperation: Operation {
     override func execute() {
 
         do {
-            guard let partitionOp = self.partitionOp, let dataConditioner = self.dataConditioner else {
+            guard let partitionOp = self.partitionOp, let dataConditioner = self.dataConditioner, let URLSession = partitionOp.URLSession else {
                 throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
             }
             partitionOp.resolvedURLRequest = try partitionOp.URLRequest?.resolveURL()
-            let downloadTask = partitionOp.URLSession!.delegate != nil ? partitionOp.URLSession!.downloadTaskWithRequest(partitionOp.resolvedURLRequest!) : partitionOp.URLSession!.downloadTaskWithRequest(partitionOp.resolvedURLRequest!, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
+            guard let resolvedURLRequest = partitionOp.resolvedURLRequest else { throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
+            }
+            let downloadTask = URLSession.delegate != nil ? URLSession.downloadTaskWithRequest(resolvedURLRequest) : URLSession.downloadTaskWithRequest(resolvedURLRequest, completionHandler: { (location: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
                 if let location = location where error == nil {
                     dataConditioner.dataRetrieved = true
                     dataConditioner.dataToProcess = NSData(contentsOfURL: location)

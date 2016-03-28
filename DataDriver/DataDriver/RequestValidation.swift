@@ -30,9 +30,9 @@ struct RequestValidationCondition: OperationCondition {
     }
 
     func dependencyForOperation(operation: Operation) -> NSOperation? {
-        guard let operation = operation as? RequestConstructionOperation, let _ = self.partitionOp else { return nil }
+        guard let operation = operation as? RequestConstructionOperation, let _ = self.partitionOp, let _ = self.partitionOp?.transaction?.graphManager, let _ = self.partitionOp?.storeRequest else { return nil }
 
-        return RequestValidation(partitionOp: self.partitionOp!, requestConstructor: operation)
+        return RequestValidation(partitionOp: self.partitionOp!, requestConstructor: operation, graphManager: self.partitionOp!.transaction!.graphManager!, storeRequest: self.partitionOp!.storeRequest!)
     }
 
     func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
@@ -65,10 +65,10 @@ class RequestValidation: Operation {
 
     var requestConstructor: RequestConstructionOperation? = nil
 
-    convenience init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation) {
+    convenience init(partitionOp: RemoteStoreRequestOperation, requestConstructor: RequestConstructionOperation, graphManager: OperationGraphManager, storeRequest: NetworkStoreRequest) {
         self.init()
-        self.graphManager = partitionOp.transaction!.graphManager!
-        self.request = partitionOp.storeRequest!
+        self.graphManager = graphManager
+        self.request = storeRequest
         self.requestConstructor = requestConstructor
     }
 

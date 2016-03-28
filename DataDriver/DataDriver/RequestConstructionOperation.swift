@@ -141,7 +141,7 @@ class RequestConstructionOperation: Operation {
                 self.partitionOp?.URLRequest = self.generateRemoteStoreFetchRequest((self.partitionOp?.partitionRequest)!)
 
             case is NetworkStoreSaveRequest:
-                guard let request = self.partitionOp?.storeRequest as? NetworkStoreSaveRequest, let stackID = self.partitionOp?.transaction!.graphManager?.stackID else {
+                guard let request = self.partitionOp?.storeRequest as? NetworkStoreSaveRequest, let stackID = self.partitionOp?.transaction?.graphManager?.stackID else {
                     throw NSError(domain: "DataLayer", code: 1000, userInfo: nil)
                 }
                 self.partitionOp?.partitionRequest = try self.processStoreSaveRequest(request, stackID: stackID)
