@@ -16,6 +16,17 @@ public class NetworkStoreFetchRequest:NSFetchRequest, NetworkStoreRequest {
      */
     public var networkStoreOverrideTokens: Dictionary<NSObject, AnyObject>?
 
+    /**
+     Assign a block to be executed at the completion of the request.
+     */
+    public var completionHandler: (Void -> Void)?
+
+    /**
+     Assign a transaction delegate. This will override the data layer delegate if one exists.
+     */
+    public var transactionDelegate: TransactionDelegate?
+
+
     override public func copyWithZone(zone: NSZone) -> AnyObject {
         let newRequest = super.copyWithZone(zone)
         guard let request = newRequest as? NetworkStoreFetchRequest else { return newRequest }
@@ -25,6 +36,10 @@ public class NetworkStoreFetchRequest:NSFetchRequest, NetworkStoreRequest {
         }
 
         request.networkStoreOverrideTokens = self.networkStoreOverrideTokens
+
+        request.completionHandler = self.completionHandler
+
+        request.transactionDelegate = self.transactionDelegate
         
         return request
     }

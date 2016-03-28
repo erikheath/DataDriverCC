@@ -17,6 +17,16 @@ public class NetworkStoreSaveRequest:NSSaveChangesRequest, NetworkStoreRequest {
     public var networkStoreOverrideTokens: Dictionary<NSObject, AnyObject>?
 
     /**
+     Assign a block to be executed at the completion of the request.
+     */
+    public var completionHandler: (Void -> Void)?
+
+    /**
+     Assign a transaction delegate. This will override the data layer delegate if one exists.
+     */
+    public var transactionDelegate: TransactionDelegate?
+
+    /**
      This method preserves the added properties of the subclass when copying.
     */
     override public func copyWithZone(zone: NSZone) -> AnyObject {
@@ -28,6 +38,10 @@ public class NetworkStoreSaveRequest:NSSaveChangesRequest, NetworkStoreRequest {
         }
 
         request.networkStoreOverrideTokens = self.networkStoreOverrideTokens
+
+        request.completionHandler = self.completionHandler
+
+        request.transactionDelegate = self.transactionDelegate
         
         return request
     }

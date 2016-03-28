@@ -49,6 +49,8 @@ public class TransactionOperation: GroupOperation {
      */
     weak var delegate: TransactionDelegate? = nil
 
+    var storeRequest: NetworkStoreRequest? = nil
+
     // MARK: - Object Lifecycle
 
     init() {
@@ -59,6 +61,11 @@ public class TransactionOperation: GroupOperation {
 
         self.init()
         self.graphManager = graphManager
+        self.storeRequest = request
+        self.delegate = self.storeRequest?.transactionDelegate ?? self.delegate
+        if let _ = self.storeRequest?.completionHandler {
+            self.addCompletionBlock(self.storeRequest!.completionHandler!)
+        }
 
         // Each of these corresponds to a transaction partition, which is a set of
         // operations that make up the chain of actions necessary to request and
