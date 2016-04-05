@@ -22,7 +22,7 @@ import Foundation
     be executed before the rest of the operations in the initial chain of operations.
 */
 public class GroupOperation: Operation {
-    private let internalQueue = OperationQueue()
+    public let internalQueue = OperationQueue()
     private let startingOperation = NSBlockOperation(block: {})
     private let finishingOperation = NSBlockOperation(block: {})
 

@@ -22,9 +22,9 @@ struct DataConditionerCondition: OperationCondition {
     }
 
     func dependencyForOperation(operation: Operation) -> NSOperation? {
-        guard let operation = operation as? DataConditionerOperation else { return nil }
+        guard let operation = operation as? RemoteStoreRequestOperation else { return nil }
 
-        return RequestDataOperation(partitionOp: partitionOp, dataConditioner: operation)
+        return DataConditionerOperation(partitionOp: partitionOp)
     }
 
     func evaluateForOperation(operation: Operation, completion:OperationConditionResult -> Void) {
@@ -53,6 +53,7 @@ class DataConditionerOperation: Operation {
     convenience init(partitionOp: RemoteStoreRequestOperation) {
         self.init()
         self.partitionOp = partitionOp
+        self.addCondition(RequestDataCondition(partitionOp: partitionOp, dataConditioner: self))
     }
 
     override init() {

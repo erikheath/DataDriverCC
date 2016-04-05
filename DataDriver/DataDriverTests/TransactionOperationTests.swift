@@ -1,8 +1,8 @@
 //
-//  DataLayerTests.swift
+//  TransactionOperationTests.swift
 //  DataDriver
 //
-//  Created by ERIKHEATH A THOMAS on 3/27/16.
+//  Created by ERIKHEATH A THOMAS on 4/5/16.
 //  Copyright © 2016 Curated Cocoa LLC. All rights reserved.
 //
 
@@ -11,8 +11,8 @@ import CoreData
 
 @testable import DataDriver
 
-class DataLayerTests: XCTestCase {
-
+class TransactionOperationTests: XCTestCase {
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,7 +22,7 @@ class DataLayerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-
+    
     func testInitialization() {
         let testStore = StoreReference(storeType: NSInMemoryStoreType, configuration: nil, URL: nil, options: nil)
         let testModel = NSManagedObjectModel()
@@ -49,18 +49,13 @@ class DataLayerTests: XCTestCase {
         XCTAssertNotNil(dataLayerOne.persistentStoreCoordinator.operationGraphManager.queue)
         XCTAssertEqual(dataLayerOne.persistentStoreCoordinator.operationGraphManager.stackID, dataLayerOne.stackID)
 
-        // Create a transaction
+        // Create a transaction off of the operation graph queue to inspect the internals
         dataLayerOne.persistentStoreCoordinator.operationGraphManager.queue.suspended = true
         let request = NetworkStoreFetchRequest()
-        dataLayerOne.persistentStoreCoordinator.operationGraphManager.addTransaction(request)
-        XCTAssert(dataLayerOne.persistentStoreCoordinator.operationGraphManager.queue.operationCount == 1)
-        XCTAssertNotNil(dataLayerOne.persistentStoreCoordinator.operationGraphManager.queue.operations.first as? BlockOperation)
+        let transaction = TransactionOperation(request: request, graphManager: dataLayerOne.persistentStoreCoordinator.operationGraphManager)
+        XCTAssertNotNil(transaction.internalQueue)
+        XCTAssert(transaction.internalQueue.operationCount == 6)
     }
 
     
 }
-
-
-
-
-
