@@ -101,6 +101,10 @@ public class RemoteStoreRequestOperation: Operation {
     override init() {
         super.init()
     }
+
+    override func execute() {
+        finish()
+    }
 }
 
 

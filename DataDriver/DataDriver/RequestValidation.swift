@@ -110,6 +110,7 @@ class RequestValidation: Operation {
 
                 // Set the request as being a valid request on the constructor, thereby meeting the condition.
                 requestConstructor.requestValidated = true
+                finish()
             }
         }
     }
